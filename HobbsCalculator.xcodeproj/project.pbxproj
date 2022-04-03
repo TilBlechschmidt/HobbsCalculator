@@ -7,6 +7,24 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		9327C42027EFCD2A00EBC72F /* TimeInput.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9327C41F27EFCD2A00EBC72F /* TimeInput.swift */; };
+		9327C42127EFCD2A00EBC72F /* TimeInput.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9327C41F27EFCD2A00EBC72F /* TimeInput.swift */; };
+		9327C42327F0710600EBC72F /* TimeParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9327C42227F0710600EBC72F /* TimeParser.swift */; };
+		9327C42427F0710600EBC72F /* TimeParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9327C42227F0710600EBC72F /* TimeParser.swift */; };
+		9327C42727F0789D00EBC72F /* FlightQuestionnaire.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9327C42627F0789D00EBC72F /* FlightQuestionnaire.swift */; };
+		9327C42827F0789D00EBC72F /* FlightQuestionnaire.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9327C42627F0789D00EBC72F /* FlightQuestionnaire.swift */; };
+		9327C42B27F0A92000EBC72F /* StartupQuestionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9327C42A27F0A92000EBC72F /* StartupQuestionView.swift */; };
+		9327C42C27F0A92000EBC72F /* StartupQuestionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9327C42A27F0A92000EBC72F /* StartupQuestionView.swift */; };
+		9327C42E27F0A93D00EBC72F /* DepartureQuestionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9327C42D27F0A93D00EBC72F /* DepartureQuestionView.swift */; };
+		9327C42F27F0A93D00EBC72F /* DepartureQuestionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9327C42D27F0A93D00EBC72F /* DepartureQuestionView.swift */; };
+		9327C43127F0A94F00EBC72F /* OldFlightInformation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9327C43027F0A94F00EBC72F /* OldFlightInformation.swift */; };
+		9327C43227F0A94F00EBC72F /* OldFlightInformation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9327C43027F0A94F00EBC72F /* OldFlightInformation.swift */; };
+		9327C43427F0A9E200EBC72F /* TripQuestionnaire.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9327C43327F0A9E200EBC72F /* TripQuestionnaire.swift */; };
+		9327C43527F0A9E200EBC72F /* TripQuestionnaire.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9327C43327F0A9E200EBC72F /* TripQuestionnaire.swift */; };
+		9327C43727F0ABD200EBC72F /* TimeDistributionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9327C43627F0ABD200EBC72F /* TimeDistributionView.swift */; };
+		9327C43827F0ABD200EBC72F /* TimeDistributionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9327C43627F0ABD200EBC72F /* TimeDistributionView.swift */; };
+		9327C43A27F0D5F000EBC72F /* LegOverview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9327C43927F0D5F000EBC72F /* LegOverview.swift */; };
+		9327C43B27F0D5F000EBC72F /* LegOverview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9327C43927F0D5F000EBC72F /* LegOverview.swift */; };
 		93365FE627EA8F18003C507D /* Tests_iOS.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93365FE527EA8F18003C507D /* Tests_iOS.swift */; };
 		93365FE827EA8F18003C507D /* Tests_iOSLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93365FE727EA8F18003C507D /* Tests_iOSLaunchTests.swift */; };
 		93365FF227EA8F18003C507D /* Tests_macOS.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93365FF127EA8F18003C507D /* Tests_macOS.swift */; };
@@ -17,6 +35,32 @@
 		93365FF827EA8F18003C507D /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93365FCE27EA8F15003C507D /* ContentView.swift */; };
 		93365FF927EA8F18003C507D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 93365FCF27EA8F18003C507D /* Assets.xcassets */; };
 		93365FFA27EA8F18003C507D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 93365FCF27EA8F18003C507D /* Assets.xcassets */; };
+		9358AA3827F8C75400C39044 /* View+CornerRadius.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9358AA3727F8C75400C39044 /* View+CornerRadius.swift */; };
+		9358AA3927F8C75400C39044 /* View+CornerRadius.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9358AA3727F8C75400C39044 /* View+CornerRadius.swift */; };
+		9358AA3B27F8C8E200C39044 /* View+Conditional.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9358AA3A27F8C8E200C39044 /* View+Conditional.swift */; };
+		9358AA3C27F8C8E200C39044 /* View+Conditional.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9358AA3A27F8C8E200C39044 /* View+Conditional.swift */; };
+		9358AA3E27F8F00300C39044 /* SliderLabelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9358AA3D27F8F00300C39044 /* SliderLabelView.swift */; };
+		9358AA3F27F8F00300C39044 /* SliderLabelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9358AA3D27F8F00300C39044 /* SliderLabelView.swift */; };
+		9358AA4127F8F2AA00C39044 /* Color+Hex.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9358AA4027F8F2AA00C39044 /* Color+Hex.swift */; };
+		9358AA4227F8F2AA00C39044 /* Color+Hex.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9358AA4027F8F2AA00C39044 /* Color+Hex.swift */; };
+		9358AA4527F9076100C39044 /* DataContainers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9358AA4427F9076100C39044 /* DataContainers.swift */; };
+		9358AA4627F9076100C39044 /* DataContainers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9358AA4427F9076100C39044 /* DataContainers.swift */; };
+		9358AA4827F908A700C39044 /* FlightManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9358AA4727F908A700C39044 /* FlightManager.swift */; };
+		9358AA4927F908A700C39044 /* FlightManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9358AA4727F908A700C39044 /* FlightManager.swift */; };
+		9391427627F89DD500FD8BB4 /* RouteInformationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9391427527F89DD500FD8BB4 /* RouteInformationView.swift */; };
+		9391427727F89DD900FD8BB4 /* RouteInformationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9391427527F89DD500FD8BB4 /* RouteInformationView.swift */; };
+		9391427927F8AAB200FD8BB4 /* LocationInput.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9391427827F8AAB200FD8BB4 /* LocationInput.swift */; };
+		9391427A27F8AAB400FD8BB4 /* LocationInput.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9391427827F8AAB200FD8BB4 /* LocationInput.swift */; };
+		9391427C27F8AB0300FD8BB4 /* LandingInformationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9391427B27F8AB0300FD8BB4 /* LandingInformationView.swift */; };
+		9391427D27F8AB0300FD8BB4 /* LandingInformationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9391427B27F8AB0300FD8BB4 /* LandingInformationView.swift */; };
+		9391427F27F8AFC500FD8BB4 /* StepperRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9391427E27F8AFC500FD8BB4 /* StepperRow.swift */; };
+		9391428027F8AFC500FD8BB4 /* StepperRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9391427E27F8AFC500FD8BB4 /* StepperRow.swift */; };
+		9391428227F8B1ED00FD8BB4 /* TaxiInformationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9391428127F8B1ED00FD8BB4 /* TaxiInformationView.swift */; };
+		9391428327F8B1ED00FD8BB4 /* TaxiInformationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9391428127F8B1ED00FD8BB4 /* TaxiInformationView.swift */; };
+		9391428527F8B22100FD8BB4 /* CrossCountryInformationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9391428427F8B22100FD8BB4 /* CrossCountryInformationView.swift */; };
+		9391428627F8B22100FD8BB4 /* CrossCountryInformationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9391428427F8B22100FD8BB4 /* CrossCountryInformationView.swift */; };
+		9391428927F8B33300FD8BB4 /* Collection+Chunked.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9391428827F8B33300FD8BB4 /* Collection+Chunked.swift */; };
+		9391428A27F8B33300FD8BB4 /* Collection+Chunked.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9391428827F8B33300FD8BB4 /* Collection+Chunked.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -37,6 +81,17 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		931F3A0627F1047100B911F3 /* HobbsCalculator--iOS--Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "HobbsCalculator--iOS--Info.plist"; sourceTree = "<group>"; };
+		931F3A0827F1068700B911F3 /* HobbsCalculator--macOS--Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "HobbsCalculator--macOS--Info.plist"; sourceTree = "<group>"; };
+		9327C41F27EFCD2A00EBC72F /* TimeInput.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeInput.swift; sourceTree = "<group>"; };
+		9327C42227F0710600EBC72F /* TimeParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeParser.swift; sourceTree = "<group>"; };
+		9327C42627F0789D00EBC72F /* FlightQuestionnaire.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlightQuestionnaire.swift; sourceTree = "<group>"; };
+		9327C42A27F0A92000EBC72F /* StartupQuestionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartupQuestionView.swift; sourceTree = "<group>"; };
+		9327C42D27F0A93D00EBC72F /* DepartureQuestionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DepartureQuestionView.swift; sourceTree = "<group>"; };
+		9327C43027F0A94F00EBC72F /* OldFlightInformation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OldFlightInformation.swift; sourceTree = "<group>"; };
+		9327C43327F0A9E200EBC72F /* TripQuestionnaire.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripQuestionnaire.swift; sourceTree = "<group>"; };
+		9327C43627F0ABD200EBC72F /* TimeDistributionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeDistributionView.swift; sourceTree = "<group>"; };
+		9327C43927F0D5F000EBC72F /* LegOverview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LegOverview.swift; sourceTree = "<group>"; };
 		93365FCD27EA8F15003C507D /* HobbsCalculatorApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HobbsCalculatorApp.swift; sourceTree = "<group>"; };
 		93365FCE27EA8F15003C507D /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		93365FCF27EA8F18003C507D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -49,6 +104,19 @@
 		93365FED27EA8F18003C507D /* Tests macOS.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Tests macOS.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		93365FF127EA8F18003C507D /* Tests_macOS.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tests_macOS.swift; sourceTree = "<group>"; };
 		93365FF327EA8F18003C507D /* Tests_macOSLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tests_macOSLaunchTests.swift; sourceTree = "<group>"; };
+		9358AA3727F8C75400C39044 /* View+CornerRadius.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+CornerRadius.swift"; sourceTree = "<group>"; };
+		9358AA3A27F8C8E200C39044 /* View+Conditional.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+Conditional.swift"; sourceTree = "<group>"; };
+		9358AA3D27F8F00300C39044 /* SliderLabelView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SliderLabelView.swift; sourceTree = "<group>"; };
+		9358AA4027F8F2AA00C39044 /* Color+Hex.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Color+Hex.swift"; sourceTree = "<group>"; };
+		9358AA4427F9076100C39044 /* DataContainers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataContainers.swift; sourceTree = "<group>"; };
+		9358AA4727F908A700C39044 /* FlightManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlightManager.swift; sourceTree = "<group>"; };
+		9391427527F89DD500FD8BB4 /* RouteInformationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RouteInformationView.swift; sourceTree = "<group>"; };
+		9391427827F8AAB200FD8BB4 /* LocationInput.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationInput.swift; sourceTree = "<group>"; };
+		9391427B27F8AB0300FD8BB4 /* LandingInformationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LandingInformationView.swift; sourceTree = "<group>"; };
+		9391427E27F8AFC500FD8BB4 /* StepperRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepperRow.swift; sourceTree = "<group>"; };
+		9391428127F8B1ED00FD8BB4 /* TaxiInformationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaxiInformationView.swift; sourceTree = "<group>"; };
+		9391428427F8B22100FD8BB4 /* CrossCountryInformationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CrossCountryInformationView.swift; sourceTree = "<group>"; };
+		9391428827F8B33300FD8BB4 /* Collection+Chunked.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Collection+Chunked.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -83,9 +151,34 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		9327C42527F0712400EBC72F /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				9391427427F89DC900FD8BB4 /* FlightCreation */,
+				9327C42927F0A91200EBC72F /* Questionnaire */,
+				93365FCE27EA8F15003C507D /* ContentView.swift */,
+				9327C43927F0D5F000EBC72F /* LegOverview.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		9327C42927F0A91200EBC72F /* Questionnaire */ = {
+			isa = PBXGroup;
+			children = (
+				9327C42A27F0A92000EBC72F /* StartupQuestionView.swift */,
+				9327C42D27F0A93D00EBC72F /* DepartureQuestionView.swift */,
+				9327C42627F0789D00EBC72F /* FlightQuestionnaire.swift */,
+				9327C43327F0A9E200EBC72F /* TripQuestionnaire.swift */,
+				9327C43627F0ABD200EBC72F /* TimeDistributionView.swift */,
+			);
+			path = Questionnaire;
+			sourceTree = "<group>";
+		};
 		93365FC727EA8F15003C507D = {
 			isa = PBXGroup;
 			children = (
+				931F3A0827F1068700B911F3 /* HobbsCalculator--macOS--Info.plist */,
+				931F3A0627F1047100B911F3 /* HobbsCalculator--iOS--Info.plist */,
 				93365FCC27EA8F15003C507D /* Shared */,
 				93365FDB27EA8F18003C507D /* macOS */,
 				93365FE427EA8F18003C507D /* Tests iOS */,
@@ -97,9 +190,14 @@
 		93365FCC27EA8F15003C507D /* Shared */ = {
 			isa = PBXGroup;
 			children = (
+				9391428727F8B32900FD8BB4 /* Extensions */,
+				9327C42527F0712400EBC72F /* Views */,
 				93365FCD27EA8F15003C507D /* HobbsCalculatorApp.swift */,
-				93365FCE27EA8F15003C507D /* ContentView.swift */,
 				93365FCF27EA8F18003C507D /* Assets.xcassets */,
+				9327C42227F0710600EBC72F /* TimeParser.swift */,
+				9327C43027F0A94F00EBC72F /* OldFlightInformation.swift */,
+				9358AA4427F9076100C39044 /* DataContainers.swift */,
+				9358AA4727F908A700C39044 /* FlightManager.swift */,
 			);
 			path = Shared;
 			sourceTree = "<group>";
@@ -139,6 +237,40 @@
 				93365FF327EA8F18003C507D /* Tests_macOSLaunchTests.swift */,
 			);
 			path = "Tests macOS";
+			sourceTree = "<group>";
+		};
+		9358AA4327F9062100C39044 /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				9327C41F27EFCD2A00EBC72F /* TimeInput.swift */,
+				9391427827F8AAB200FD8BB4 /* LocationInput.swift */,
+				9391427E27F8AFC500FD8BB4 /* StepperRow.swift */,
+				9358AA3D27F8F00300C39044 /* SliderLabelView.swift */,
+			);
+			path = Helpers;
+			sourceTree = "<group>";
+		};
+		9391427427F89DC900FD8BB4 /* FlightCreation */ = {
+			isa = PBXGroup;
+			children = (
+				9358AA4327F9062100C39044 /* Helpers */,
+				9391427527F89DD500FD8BB4 /* RouteInformationView.swift */,
+				9391427B27F8AB0300FD8BB4 /* LandingInformationView.swift */,
+				9391428427F8B22100FD8BB4 /* CrossCountryInformationView.swift */,
+				9391428127F8B1ED00FD8BB4 /* TaxiInformationView.swift */,
+			);
+			path = FlightCreation;
+			sourceTree = "<group>";
+		};
+		9391428727F8B32900FD8BB4 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				9391428827F8B33300FD8BB4 /* Collection+Chunked.swift */,
+				9358AA3727F8C75400C39044 /* View+CornerRadius.swift */,
+				9358AA3A27F8C8E200C39044 /* View+Conditional.swift */,
+				9358AA4027F8F2AA00C39044 /* Color+Hex.swift */,
+			);
+			path = Extensions;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -300,7 +432,29 @@
 			buildActionMask = 2147483647;
 			files = (
 				93365FF727EA8F18003C507D /* ContentView.swift in Sources */,
+				9327C42727F0789D00EBC72F /* FlightQuestionnaire.swift in Sources */,
+				9391428927F8B33300FD8BB4 /* Collection+Chunked.swift in Sources */,
+				9391427927F8AAB200FD8BB4 /* LocationInput.swift in Sources */,
+				9327C43427F0A9E200EBC72F /* TripQuestionnaire.swift in Sources */,
+				9327C43127F0A94F00EBC72F /* OldFlightInformation.swift in Sources */,
+				9358AA3827F8C75400C39044 /* View+CornerRadius.swift in Sources */,
+				9358AA3B27F8C8E200C39044 /* View+Conditional.swift in Sources */,
+				9391427C27F8AB0300FD8BB4 /* LandingInformationView.swift in Sources */,
+				9358AA4127F8F2AA00C39044 /* Color+Hex.swift in Sources */,
+				9358AA3E27F8F00300C39044 /* SliderLabelView.swift in Sources */,
+				9327C42327F0710600EBC72F /* TimeParser.swift in Sources */,
+				9391428527F8B22100FD8BB4 /* CrossCountryInformationView.swift in Sources */,
+				9327C42027EFCD2A00EBC72F /* TimeInput.swift in Sources */,
+				9327C42B27F0A92000EBC72F /* StartupQuestionView.swift in Sources */,
+				9327C42E27F0A93D00EBC72F /* DepartureQuestionView.swift in Sources */,
+				9327C43727F0ABD200EBC72F /* TimeDistributionView.swift in Sources */,
+				9358AA4527F9076100C39044 /* DataContainers.swift in Sources */,
+				9391428227F8B1ED00FD8BB4 /* TaxiInformationView.swift in Sources */,
+				9391427627F89DD500FD8BB4 /* RouteInformationView.swift in Sources */,
 				93365FF527EA8F18003C507D /* HobbsCalculatorApp.swift in Sources */,
+				9327C43A27F0D5F000EBC72F /* LegOverview.swift in Sources */,
+				9391427F27F8AFC500FD8BB4 /* StepperRow.swift in Sources */,
+				9358AA4827F908A700C39044 /* FlightManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -309,7 +463,29 @@
 			buildActionMask = 2147483647;
 			files = (
 				93365FF827EA8F18003C507D /* ContentView.swift in Sources */,
+				9327C42827F0789D00EBC72F /* FlightQuestionnaire.swift in Sources */,
+				9391428A27F8B33300FD8BB4 /* Collection+Chunked.swift in Sources */,
+				9391427A27F8AAB400FD8BB4 /* LocationInput.swift in Sources */,
+				9327C43527F0A9E200EBC72F /* TripQuestionnaire.swift in Sources */,
+				9327C43227F0A94F00EBC72F /* OldFlightInformation.swift in Sources */,
+				9358AA3927F8C75400C39044 /* View+CornerRadius.swift in Sources */,
+				9358AA3C27F8C8E200C39044 /* View+Conditional.swift in Sources */,
+				9391427D27F8AB0300FD8BB4 /* LandingInformationView.swift in Sources */,
+				9358AA4227F8F2AA00C39044 /* Color+Hex.swift in Sources */,
+				9358AA3F27F8F00300C39044 /* SliderLabelView.swift in Sources */,
+				9327C42427F0710600EBC72F /* TimeParser.swift in Sources */,
+				9391428627F8B22100FD8BB4 /* CrossCountryInformationView.swift in Sources */,
+				9327C42127EFCD2A00EBC72F /* TimeInput.swift in Sources */,
+				9327C42C27F0A92000EBC72F /* StartupQuestionView.swift in Sources */,
+				9327C42F27F0A93D00EBC72F /* DepartureQuestionView.swift in Sources */,
+				9327C43827F0ABD200EBC72F /* TimeDistributionView.swift in Sources */,
+				9358AA4627F9076100C39044 /* DataContainers.swift in Sources */,
+				9391428327F8B1ED00FD8BB4 /* TaxiInformationView.swift in Sources */,
+				9391427727F89DD900FD8BB4 /* RouteInformationView.swift in Sources */,
 				93365FF627EA8F18003C507D /* HobbsCalculatorApp.swift in Sources */,
+				9327C43B27F0D5F000EBC72F /* LegOverview.swift in Sources */,
+				9391428027F8AFC500FD8BB4 /* StepperRow.swift in Sources */,
+				9358AA4927F908A700C39044 /* FlightManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -462,10 +638,12 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 8;
 				DEVELOPMENT_TEAM = LQWS3ZT7UK;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "HobbsCalculator--iOS--Info.plist";
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -476,7 +654,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 0.1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = dev.blechschmidt.HobbsCalculator;
 				PRODUCT_NAME = HobbsCalculator;
 				SDKROOT = iphoneos;
@@ -492,10 +670,12 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 8;
 				DEVELOPMENT_TEAM = LQWS3ZT7UK;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "HobbsCalculator--iOS--Info.plist";
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -506,7 +686,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 0.1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = dev.blechschmidt.HobbsCalculator;
 				PRODUCT_NAME = HobbsCalculator;
 				SDKROOT = iphoneos;
@@ -525,18 +705,19 @@
 				CODE_SIGN_ENTITLEMENTS = macOS/macOS.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 8;
 				DEVELOPMENT_TEAM = LQWS3ZT7UK;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "HobbsCalculator--macOS--Info.plist";
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 12.3;
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 0.1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = dev.blechschmidt.HobbsCalculator;
 				PRODUCT_NAME = HobbsCalculator;
 				SDKROOT = macosx;
@@ -553,18 +734,19 @@
 				CODE_SIGN_ENTITLEMENTS = macOS/macOS.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 8;
 				DEVELOPMENT_TEAM = LQWS3ZT7UK;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "HobbsCalculator--macOS--Info.plist";
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 12.3;
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 0.1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = dev.blechschmidt.HobbsCalculator;
 				PRODUCT_NAME = HobbsCalculator;
 				SDKROOT = macosx;
