@@ -33,14 +33,12 @@ struct CrossCountryInformationView: View {
         self.landing = landing
 
         let legs = route.legs
-        let flightTime = Int(round(route.flightTime))
 
         if legs.count == 1 {
-            self.durations = [flightTime]
+            self.durations = [Int(round(route.flightTime - landing.trafficPatternTime))]
             self.crossCountryTime = 0
         } else if !legs.isEmpty {
-            let trafficPatternTime = landing.trafficPatternTime
-            self.crossCountryTime = flightTime - trafficPatternTime
+            self.crossCountryTime = Int(round(route.flightTime - landing.trafficPatternTime))
 
             if crossCountryTime < 0 {
                 fatalError("No XC time remaining. Did someone enter too many landings without it being caught?")
@@ -151,10 +149,9 @@ struct CrossCountryInformationView_Previews: PreviewProvider {
         shutdownHobbs: 29164080.0)
 
     static let landing = LandingInformation(
-        origin: 0,
-        intermediates: [6],
-        destination: 1,
-        timePerTrafficPatternCircuit: 120)
+        origin: LandingInformation.LandingCount(count: 0, time: 0),
+        intermediates: [LandingInformation.LandingCount(count: 6, time: 10)],
+        destination: LandingInformation.LandingCount(count: 1, time: 0))
 
     static var previews: some View {
         NavigationView {

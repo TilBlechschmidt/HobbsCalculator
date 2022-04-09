@@ -7,6 +7,10 @@
 
 import Foundation
 
+typealias HobbsValue = TimeInterval
+typealias LocationIdentifier = String
+typealias Timestamp = TimeInterval
+
 struct LegInformation {
     let origin: LocationIdentifier
     let destination: LocationIdentifier
@@ -45,20 +49,17 @@ struct RouteInformation: Hashable {
 }
 
 struct LandingInformation: Hashable {
-    let origin: Int
-    let intermediates: [Int]
-    let destination: Int
-
-    let timePerTrafficPatternCircuit: Int
-
-    var trafficPatternCircuits: Int {
-        origin
-        + (destination - 1)
-        + intermediates.reduce(0) { $0 + $1 - 1 }
+    struct LandingCount: Hashable {
+        var count: Int
+        var time: TimeInterval
     }
 
-    var trafficPatternTime: Int {
-        trafficPatternCircuits * timePerTrafficPatternCircuit
+    let origin: LandingCount
+    let intermediates: [LandingCount]
+    let destination: LandingCount
+
+    var trafficPatternTime: TimeInterval {
+        origin.time + intermediates.reduce(0) { $0 + $1.time } + destination.time
     }
 }
 
@@ -93,29 +94,26 @@ struct FlightInformation: Hashable {
     let taxi: TaxiInformation
 
     var logbookEntries: [LogbookEntry] {
-        print(self)
-
-
         class Waypoint {
             let location: LocationIdentifier
-            var landings: Int
+            var landings: LandingInformation.LandingCount
             var taxiTime: TimeInterval
 
-            internal init(location: LocationIdentifier, landings: Int, taxiTime: TimeInterval) {
+            internal init(location: LocationIdentifier, landings: LandingInformation.LandingCount, taxiTime: TimeInterval) {
                 self.location = location
                 self.landings = landings
                 self.taxiTime = taxiTime
             }
 
-            func extract(singleLanding: Bool = false, consumeTaxiTime: Bool = true) -> ExtractedWaypoint {
-                let landings: Int
+            func extract(crossCountryLanding: Bool = false, consumeTaxiTime: Bool = true) -> ExtractedWaypoint {
+                let landings: LandingInformation.LandingCount
 
-                if singleLanding {
-                    landings = 1
-                    self.landings -= 1
+                if crossCountryLanding {
+                    landings = LandingInformation.LandingCount(count: 1, time: 0)
+                    self.landings.count -= 1
                 } else {
                     landings = self.landings
-                    self.landings = 0
+                    self.landings = LandingInformation.LandingCount(count: 0, time: 0)
                 }
 
                 let taxiTime: TimeInterval
@@ -133,7 +131,7 @@ struct FlightInformation: Hashable {
 
         struct ExtractedWaypoint {
             let location: LocationIdentifier
-            let landings: Int
+            let landings: LandingInformation.LandingCount
             let taxiTime: TimeInterval
         }
 
@@ -182,22 +180,23 @@ struct FlightInformation: Hashable {
         var legs: [Leg] = []
         for (i, (origin, travelTime, destination)) in crossCountryLegs.enumerated() {
             // Boundary condition, add traffic pattern circuits for the first airport if applicable
-            if i == 0 && origin.landings > 0 {
-                let waypoint = origin.extract(singleLanding: false, consumeTaxiTime: true)
-                let flightTime = Double(waypoint.landings) * TimeInterval(landing.timePerTrafficPatternCircuit)
-                legs.append(Leg.TrafficPatterns(waypoint, flightTime))
+            if i == 0 && origin.landings.count > 0 {
+                let waypoint = origin.extract(crossCountryLanding: false, consumeTaxiTime: true)
+                legs.append(Leg.TrafficPatterns(waypoint, waypoint.landings.time))
             }
 
-            let crossCountryOrigin = origin.extract(singleLanding: false, consumeTaxiTime: true)
-            let crossCountryDestination = destination.extract(singleLanding: true, consumeTaxiTime: destination.landings == 1)
-            assert(crossCountryOrigin.landings == 0)
+            let crossCountryOrigin = origin.extract(crossCountryLanding: false, consumeTaxiTime: true)
+            let crossCountryDestination = destination.extract(crossCountryLanding: true, consumeTaxiTime: destination.landings.count == 1)
+            assert(crossCountryOrigin.landings.count == 0)
+            assert(crossCountryOrigin.landings.time == 0)
+            assert(crossCountryDestination.landings.count == 1)
+            assert(crossCountryDestination.landings.time == 0)
             legs.append(Leg.CrossCountry(crossCountryOrigin, travelTime, crossCountryDestination))
 
             // Add traffic patterns at the destination if applicable
-            if destination.landings > 0 {
-                let waypoint = destination.extract(singleLanding: false, consumeTaxiTime: true)
-                let flightTime = Double(waypoint.landings) * TimeInterval(landing.timePerTrafficPatternCircuit)
-                legs.append(Leg.TrafficPatterns(waypoint, flightTime))
+            if destination.landings.count > 0 {
+                let waypoint = destination.extract(crossCountryLanding: false, consumeTaxiTime: true)
+                legs.append(Leg.TrafficPatterns(waypoint, waypoint.landings.time))
             }
         }
 
@@ -217,7 +216,7 @@ struct FlightInformation: Hashable {
                         hobbsEnd: tracker.add(flight: travelTime),
                         arrival: tracker.wallTime,
                         blockEnd: tracker.add(taxi: destination.taxiTime),
-                        landings: destination.landings)
+                        landings: destination.landings.count)
                 )
             case .TrafficPatterns(let waypoint, let flightTime):
                 let isFirst = i == 0
@@ -247,10 +246,26 @@ struct FlightInformation: Hashable {
                         hobbsEnd: tracker.add(flight: flightTime),
                         arrival: tracker.wallTime,
                         blockEnd: tracker.add(taxi: endTaxi),
-                        landings: waypoint.landings)
+                        landings: waypoint.landings.count)
                 )
             }
         }
+
+//        print(self)
+//        print(logbookEntries)
+//        print("--------")
+//        print("actual:")
+//        print("\tflight: \(route.flightTime / 60)")
+//        print("\twall: \(route.blockTime / 60)")
+//        print("\ttaxi: \(route.taxiTime / 60)")
+//        print("expected:")
+//        print("\tflight: \((route.shutdownHobbs - route.startupHobbs) / 60)")
+//        print("\twall: \((route.shutdownTime - route.startupTime) / 60)")
+//        print("\ttaxi: \(((route.shutdownTime - route.startupTime) - (route.shutdownHobbs - route.startupHobbs)) / 60)")
+//        print("accumulated:")
+//        print("\tflightXC: \(crossCountry.durations.reduce(0) { $0 + $1 } / 60)")
+//        print("\tflightTP: \(landing.trafficPatternTime / 60)")
+//        print("\ttaxi: \((taxi.origin + taxi.destination + taxi.intermediates.reduce(0) { $0 + $1 }) / 60)")
 
         assert(tracker.wallTime == route.shutdownTime, "expected and actual wall time did not match")
         assert(tracker.hobbsTime == route.shutdownHobbs, "expected and actual hobbs time did not match")

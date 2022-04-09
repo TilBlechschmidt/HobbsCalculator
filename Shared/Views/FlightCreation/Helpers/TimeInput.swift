@@ -10,8 +10,11 @@ import SwiftUI
 struct TimeInput: View {
     @FocusState private var hourInputFocused: Bool
     @FocusState private var inputFocused: Bool
+
     @State var hours: String
     @State var minutes: String
+
+    @State var ignoreChanges: Bool = false
 
     let parser: TimeParser
     let value: Binding<TimeInterval?>
@@ -55,9 +58,30 @@ struct TimeInput: View {
                     inputFocused = true
                 }
             }
+            .onChange(of: inputFocused) { _ in
+                if inputFocused {
+                    ignoreChanges = true
+                    let text = minutes
+                    minutes = ""
+                    DispatchQueue.main.async {
+                        minutes = text
+                        ignoreChanges = false
+                    }
+                }
+            }
+            .overlay {
+                Rectangle()
+                    // We can not use .clear or 0 because then SwiftUI just removes the element and the tapGesture will not work
+                    .opacity(0.01)
+                    .onTapGesture {
+                        inputFocused = true
+                    }
+            }
     }
 
     func overflowHandling(_: String) {
+        guard !ignoreChanges else { return }
+
         var hours = hours
         var minutes = minutes
 
@@ -112,5 +136,6 @@ struct TimeInput_Previews: PreviewProvider {
 
     static var previews: some View {
         ExampleView()
+            .previewInterfaceOrientation(.portraitUpsideDown)
     }
 }

@@ -112,10 +112,9 @@ struct TaxiInformationView_Previews: PreviewProvider {
         shutdownHobbs: 29164080.0)
 
     static let landing = LandingInformation(
-        origin: 0,
-        intermediates: [6],
-        destination: 1,
-        timePerTrafficPatternCircuit: 120)
+        origin: LandingInformation.LandingCount(count: 0, time: 0),
+        intermediates: [LandingInformation.LandingCount(count: 6, time: 10)],
+        destination: LandingInformation.LandingCount(count: 1, time: 0))
 
     static let crossCountry = CrossCountryInformation(durations: [2040, 2040])
 

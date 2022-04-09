@@ -7,46 +7,70 @@
 
 import SwiftUI
 
+struct OptionalLandingCount: Equatable {
+    var count: Int
+    var time: TimeInterval?
+
+    var landingCount: LandingInformation.LandingCount {
+        LandingInformation.LandingCount(count: self.count, time: self.time ?? 0)
+    }
+}
+
 struct LandingInformationView: View {
     let route: RouteInformation
-    let timePerTrafficPatternCircuit = 2 * 60
 
-    @State var originLandings: Int = 0
-    @State var intermediateLandings: [Int]
-    @State var destinationLandings: Int = 1
+    @State var originLandings = OptionalLandingCount(count: 0, time: 0)
+    @State var intermediateLandings: [OptionalLandingCount]
+    @State var destinationLandings = OptionalLandingCount(count: 1, time: 0)
+
+    @State var simplified = true
+    @State var timePerTrafficPatternCircuit: TimeInterval = 4 * 60
 
     var landingInformation: LandingInformation {
-        LandingInformation(origin: originLandings, intermediates: intermediateLandings, destination: destinationLandings, timePerTrafficPatternCircuit: timePerTrafficPatternCircuit)
-    }
+        assert(originLandings.count > 0 || originLandings.time == 0)
+        assert(destinationLandings.count > 1 || destinationLandings.time == 0)
+        for landing in intermediateLandings {
+            assert(landing.count > 1 || landing.time == 0)
+        }
 
-    var originPatternTime: Int {
-        originLandings * timePerTrafficPatternCircuit
-    }
-
-    var intermediatePatternTime: Int {
-        intermediateLandings.reduce(0) { $0 + $1 - 1 } * timePerTrafficPatternCircuit
-    }
-
-    var destinationPatternTime: Int {
-        (destinationLandings - 1) * timePerTrafficPatternCircuit
+        return LandingInformation(origin: originLandings.landingCount,
+                                  intermediates: intermediateLandings.map { $0.landingCount },
+                                  destination: destinationLandings.landingCount)
     }
 
     var timeOvercommit: Bool {
-        let minimumCrossCountryTime = route.legs.count * CrossCountryInformationView.minimumDurationPerLeg
+        let minimumCrossCountryTime = TimeInterval(route.legs.count * CrossCountryInformationView.minimumDurationPerLeg)
         let flightTime = route.flightTime
-        let patternTime = originPatternTime + intermediatePatternTime + destinationPatternTime
-        let remainingTime = Int(round(flightTime)) - patternTime
+        let patternTime = (originLandings.time ?? 0) + intermediateLandings.reduce(0) { $0 + ($1.time ?? 0) } + (destinationLandings.time ?? 0)
+        let remainingTime = flightTime - patternTime
 
         return remainingTime <= minimumCrossCountryTime
     }
 
+    var inputsValid: Bool {
+        (originLandings.count > 0 || originLandings.time == 0)
+        && intermediateLandings.reduce(true) { $0 && ($1.count > 1 || $1.time == 0)}
+        && (destinationLandings.count > 1 || destinationLandings.time == 0)
+        && originLandings.time != nil
+        && intermediateLandings.reduce(true) { $0 && $1.time != nil }
+        && destinationLandings.time != nil
+        && !timeOvercommit
+    }
+
     init(_ route: RouteInformation) {
         self.route = route
-        self.intermediateLandings = route.waypoints.map { _ in 1 }
+        self.intermediateLandings = route.waypoints.map { _ in OptionalLandingCount(count: 1, time: 0) }
     }
 
     var body: some View {
         VStack {
+            Picker("Options", selection: Binding.init(get: { simplified ? 0 : 1 }, set: { simplified = $0 == 0 })) {
+                Text("Simplified").tag(0)
+                Text("Detailed").tag(1)
+            }
+                .pickerStyle(SegmentedPickerStyle())
+                .padding(.horizontal)
+
             if timeOvercommit {
                 Text("Too much time allocated to traffic patterns, nothing would be left for cross-country travel!")
                     .foregroundColor(.red)
@@ -57,43 +81,123 @@ struct LandingInformationView: View {
 
             List {
                 Section {
-                    StepperRow(value: $originLandings, range: 0...Int.max, icon: "airplane.departure", label: route.origin, unit: "x")
+                    if simplified {
+                        StepperRow(value: $originLandings.count, range: 0...Int.max, icon: "airplane.departure", label: route.origin, unit: "x")
+                    } else {
+                        StepperRow(value: $originLandings.count, range: 0...Int.max, icon: "number", label: "Landings", unit: "x")
+
+                        if originLandings.count > 0 {
+                            LabelledValue(icon: "stopwatch", label: "Traffic pattern time") {
+                                TimeInput(value: $originLandings.time)
+                            }
+                        }
+                    }
                 } header: {
-                    Text("Origin")
+                    Text(simplified ? "Origin" : "\(route.origin) — Origin")
                 } footer: {
-                    Text("\(originPatternTime / 60) min allotted for traffic circuits")
+                    if simplified {
+                        Text("\(Int((originLandings.time ?? 0) / 60)) min allotted for traffic circuits")
+                    } else if originLandings.count > 0 {
+                        Text("All landings should be considered as you normally depart without making circuits")
+                    }
                 }
 
                 if !route.waypoints.isEmpty {
-                    Section {
-                        ForEach(route.waypoints.indices, id: \.self) { index in
-                            StepperRow(value: $intermediateLandings[index], range: 1...Int.max, icon: "mappin.and.ellipse", label: route.waypoints[index], unit: "x")
+                    if simplified {
+                        Section {
+                            ForEach(route.waypoints.indices, id: \.self) { index in
+                                StepperRow(value: $intermediateLandings[index].count, range: 1...Int.max, icon: "mappin.and.ellipse", label: route.waypoints[index], unit: "x")
+                                    .onChange(of: intermediateLandings[index]) {
+                                        updateIntermediateTime($0, index: index)
+                                    }
+                            }
+                        } header: {
+                            Text("Intermediate airports")
+                        } footer: {
+                            Text("\(Int(intermediateLandings.reduce(0) { $0 + ($1.time ?? 0) } / 60)) min allotted for traffic circuits")
                         }
-                    } header: {
-                        Text("Intermediate airports")
-                    } footer: {
-                        Text("\(intermediatePatternTime / 60) min allotted for traffic circuits")
+                    } else {
+                        ForEach(route.waypoints.indices, id: \.self) { index in
+                            Section {
+                                StepperRow(value: $intermediateLandings[index].count, range: 1...Int.max, icon: "number", label: "Landings", unit: "x")
+
+                                if intermediateLandings[index].count > 1 {
+                                    LabelledValue(icon: "stopwatch", label: "Traffic pattern time") {
+                                        TimeInput(value: $intermediateLandings[index].time)
+                                    }
+                                }
+                            } header: {
+                                Text("\(route.waypoints[index])")
+                            } footer: {
+                                if intermediateLandings[index].count > 1 {
+                                    Text("First landing is considered part of cross-country time and should not be included in time")
+                                }
+                            }
+                        }
                     }
                 }
 
                 Section {
-                    StepperRow(value: $destinationLandings, range: 1...Int.max, icon: "airplane.arrival", label: route.destination, unit: "x")
+                    if simplified {
+                        StepperRow(value: $destinationLandings.count, range: 1...Int.max, icon: "airplane.arrival", label: route.destination, unit: "x")
+                    } else {
+                        StepperRow(value: $destinationLandings.count, range: 1...Int.max, icon: "number", label: "Landings", unit: "x")
+
+                        if destinationLandings.count > 1 {
+                            LabelledValue(icon: "stopwatch", label: "Traffic pattern time") {
+                                TimeInput(value: $destinationLandings.time)
+                            }
+                        }
+                    }
                 } header: {
-                    Text("Destination")
+                    Text(simplified ? "Destination" : "\(route.destination) — Destination")
                 } footer: {
-                    Text("\(destinationPatternTime / 60) min allotted for traffic circuits")
+                    if simplified {
+                        Text("\(Int((destinationLandings.time ?? 0) / 60)) min allotted for traffic circuits")
+                    } else if destinationLandings.count > 1 {
+                        Text("First landing is considered part of cross-country time and should not be included in time")
+                    }
                 }
             }.listStyle(.insetGrouped)
         }
+            .onChange(of: originLandings, perform: updateOriginTime)
+            .onChange(of: destinationLandings, perform: updateDestinationTime)
             .navigationTitle("Landings")
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItemGroup(placement: .navigationBarTrailing) {
                     NavigationLink("Next") {
-                        CrossCountryInformationView(route, landingInformation)
-                    }.disabled(timeOvercommit)
+                        // Because the view makes assertions which would crash, we only instantiate it conditionally
+                        if inputsValid {
+                            CrossCountryInformationView(route, landingInformation)
+                        }
+                    }.disabled(!inputsValid)
                 }
             }
+    }
+
+    func updateOriginTime(_ value: OptionalLandingCount) {
+        if simplified {
+            originLandings.time = Double(originLandings.count) * timePerTrafficPatternCircuit
+        } else if originLandings.count == 0 {
+            originLandings.time = 0
+        }
+    }
+
+    func updateIntermediateTime(_ value: OptionalLandingCount, index: Int) {
+        if simplified {
+            intermediateLandings[index].time = Double(intermediateLandings[index].count - 1) * timePerTrafficPatternCircuit
+        } else if intermediateLandings[index].count == 1 {
+            intermediateLandings[index].time = 0
+        }
+    }
+
+    func updateDestinationTime(_ value: OptionalLandingCount) {
+        if simplified {
+            destinationLandings.time = Double(destinationLandings.count - 1) * timePerTrafficPatternCircuit
+        } else if destinationLandings.count == 1 {
+            destinationLandings.time = 0
+        }
     }
 }
 
@@ -102,7 +206,7 @@ struct LandingInformationView_Previews: PreviewProvider {
         startupTime: 46800.0,
         startupHobbs: 29160000.0,
         origin: "EDDH",
-        waypoints: ["EDXQ"],
+        waypoints: ["EDXQ", "EDHE"],
         destination: "EDDH",
         shutdownTime: 52200.0,
         shutdownHobbs: 29164080.0)
