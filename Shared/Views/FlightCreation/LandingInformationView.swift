@@ -26,6 +26,8 @@ struct LandingInformationView: View {
     @State var simplified = true
     @State var timePerTrafficPatternCircuit: TimeInterval = 4 * 60
 
+    @EnvironmentObject var airportRegistry: AirportRegistry
+
     var landingInformation: LandingInformation {
         assert(originLandings.count > 0 || originLandings.time == 0)
         assert(destinationLandings.count > 1 || destinationLandings.time == 0)
@@ -170,7 +172,7 @@ struct LandingInformationView: View {
                     NavigationLink("Next") {
                         // Because the view makes assertions which would crash, we only instantiate it conditionally
                         if inputsValid {
-                            CrossCountryInformationView(route, landingInformation)
+                            CrossCountryInformationView(route, landingInformation, airportRegistry)
                         }
                     }.disabled(!inputsValid)
                 }

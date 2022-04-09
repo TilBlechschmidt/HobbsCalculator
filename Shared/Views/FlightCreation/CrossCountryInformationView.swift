@@ -6,9 +6,11 @@
 //
 
 import SwiftUI
+import CoreLocation
 
 struct CrossCountryInformationView: View {
     static let minimumDurationPerLeg: Int = 5 * 60
+
     let colors = [
         Color(hex: "f7b267"),
         Color(hex: "f79d65"),
@@ -28,25 +30,50 @@ struct CrossCountryInformationView: View {
         CrossCountryInformation(durations: durations.map { TimeInterval($0) })
     }
 
-    init(_ route: RouteInformation, _ landing: LandingInformation) {
+    init(_ route: RouteInformation, _ landing: LandingInformation, _ airportRegistry: AirportRegistry) {
         self.route = route
         self.landing = landing
 
         let legs = route.legs
+        let crossCountryTime = route.flightTime - landing.trafficPatternTime
 
         if legs.count == 1 {
-            self.durations = [Int(round(route.flightTime - landing.trafficPatternTime))]
+            self.durations = [Int(round(crossCountryTime))]
             self.crossCountryTime = 0
         } else if !legs.isEmpty {
-            self.crossCountryTime = Int(round(route.flightTime - landing.trafficPatternTime))
+            self.crossCountryTime = Int(round(crossCountryTime))
 
             if crossCountryTime < 0 {
                 fatalError("No XC time remaining. Did someone enter too many landings without it being caught?")
             }
 
-            let (quotient, remainder) = crossCountryTime.quotientAndRemainder(dividingBy: legs.count)
-            self.durations = route.legs.map { _ in quotient }
-            self.durations[0] += remainder
+            // Try matching airports and set default durations based on ratio of distance for each leg, else fall back to equal distribution
+            let waypointsKnown = legs.reduce(true) {
+                $0
+                && airportRegistry.knowsAirport(identifiedBy: $1.origin)
+                && airportRegistry.knowsAirport(identifiedBy: $1.destination)
+            }
+
+            if waypointsKnown {
+                let distances: [CLLocationDistance] = legs.map { leg in
+                    let origin = airportRegistry.fetchAirport(identifiedBy: leg.origin)!
+                    let destination = airportRegistry.fetchAirport(identifiedBy: leg.destination)!
+
+                    return destination.location.distance(from: origin.location)
+                }
+
+                let totalDistance = distances.reduce(0) { $0 + $1 }
+                let percentages = distances.map { $0 / totalDistance }
+                self.durations = percentages.map { Int(round($0 * crossCountryTime)) }
+
+                let remainder = self.crossCountryTime - self.durations.reduce(0) { $0 + $1 }
+                print("Remainder: \(remainder)")
+                self.durations[0] += remainder
+            } else {
+                let (quotient, remainder) = self.crossCountryTime.quotientAndRemainder(dividingBy: legs.count)
+                self.durations = route.legs.map { _ in quotient }
+                self.durations[0] += remainder
+            }
         } else {
             fatalError("No legs present in flight")
         }
@@ -157,7 +184,7 @@ struct CrossCountryInformationView_Previews: PreviewProvider {
 
     static var previews: some View {
         NavigationView {
-            CrossCountryInformationView(flight, landing)
+            CrossCountryInformationView(flight, landing, AirportRegistry.default)
         }
     }
 }

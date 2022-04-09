@@ -51,4 +51,12 @@ class AirportRegistry: ObservableObject {
 
         self.airports = airports
     }
+
+    func knowsAirport(identifiedBy identifier: String) -> Bool {
+        airports[identifier] != nil
+    }
+
+    func fetchAirport(identifiedBy identifier: String) -> Airport? {
+        airports[identifier]
+    }
 }
