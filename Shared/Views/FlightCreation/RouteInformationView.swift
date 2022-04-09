@@ -12,7 +12,7 @@ struct FixedTime {
     var hobbs: HobbsValue?
 }
 
-struct Waypoint: Identifiable {
+struct Waypoint: Identifiable, Equatable {
     let id = UUID()
     var location = ""
 }
@@ -86,11 +86,10 @@ struct RouteInformationView: View {
                     LocationInput("EDDH", location: $origin).fixedSize()
                 }
 
-                ForEach($waypoints) { waypoint in
+                ForEach($waypoints.animation()) { waypoint in
                     LabelledValue(icon: "mappin.and.ellipse", label: "Airport") {
                         LocationInput("EDXQ", location: waypoint.location)
                             .fixedSize()
-                            .transition(.slide)
                     }
                 }.onDelete(perform: deleteWaypoint(with:))
 
@@ -122,6 +121,7 @@ struct RouteInformationView: View {
             }
         }
             .listStyle(.insetGrouped)
+            .animation(.default, value: waypoints)
             .navigationTitle("Flight information")
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {

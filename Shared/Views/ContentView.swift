@@ -37,6 +37,8 @@ struct LabelledValue<Child>: View where Child: View {
 
 struct TripCalculatorView: View {
     @StateObject var flightManager = FlightManager()
+    @StateObject var airportRegistry = AirportRegistry.default
+
     let parser = TimeParser(allowInfiniteHours: true)
 
     var body: some View {
@@ -88,6 +90,7 @@ struct TripCalculatorView: View {
                         }
                 }
                     .environmentObject(flightManager)
+                    .environmentObject(airportRegistry)
                     .interactiveDismissDisabled(true)
             }
     }

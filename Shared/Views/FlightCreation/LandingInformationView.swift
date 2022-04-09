@@ -84,7 +84,7 @@ struct LandingInformationView: View {
                     if simplified {
                         StepperRow(value: $originLandings.count, range: 0...Int.max, icon: "airplane.departure", label: route.origin, unit: "x")
                     } else {
-                        StepperRow(value: $originLandings.count, range: 0...Int.max, icon: "number", label: "Landings", unit: "x")
+                        StepperRow(value: $originLandings.animation().count, range: 0...Int.max, icon: "number", label: "Landings", unit: "x")
 
                         if originLandings.count > 0 {
                             LabelledValue(icon: "stopwatch", label: "Traffic pattern time") {
@@ -119,7 +119,7 @@ struct LandingInformationView: View {
                     } else {
                         ForEach(route.waypoints.indices, id: \.self) { index in
                             Section {
-                                StepperRow(value: $intermediateLandings[index].count, range: 1...Int.max, icon: "number", label: "Landings", unit: "x")
+                                StepperRow(value: $intermediateLandings.animation()[index].count, range: 1...Int.max, icon: "number", label: "Landings", unit: "x")
 
                                 if intermediateLandings[index].count > 1 {
                                     LabelledValue(icon: "stopwatch", label: "Traffic pattern time") {
@@ -141,7 +141,7 @@ struct LandingInformationView: View {
                     if simplified {
                         StepperRow(value: $destinationLandings.count, range: 1...Int.max, icon: "airplane.arrival", label: route.destination, unit: "x")
                     } else {
-                        StepperRow(value: $destinationLandings.count, range: 1...Int.max, icon: "number", label: "Landings", unit: "x")
+                        StepperRow(value: $destinationLandings.animation().count, range: 1...Int.max, icon: "number", label: "Landings", unit: "x")
 
                         if destinationLandings.count > 1 {
                             LabelledValue(icon: "stopwatch", label: "Traffic pattern time") {
@@ -160,6 +160,7 @@ struct LandingInformationView: View {
                 }
             }.listStyle(.insetGrouped)
         }
+            .animation(.default, value: simplified)
             .onChange(of: originLandings, perform: updateOriginTime)
             .onChange(of: destinationLandings, perform: updateDestinationTime)
             .navigationTitle("Landings")

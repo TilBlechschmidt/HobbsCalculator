@@ -57,8 +57,10 @@ struct CrossCountryInformationView: View {
             TaxiInformationView(route, landing, crossCountryInformation)
         } else {
             VStack {
-                Text("Distribute the time for each leg")
-                    .padding()
+                Text("Distribute the time for each leg by moving the slices below")
+                    .font(.caption)
+                    .padding(.bottom)
+                    .padding(.horizontal)
                     .multilineTextAlignment(TextAlignment.leading)
 
                 GeometryReader { geo in

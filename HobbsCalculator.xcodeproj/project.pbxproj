@@ -59,6 +59,10 @@
 		9391428627F8B22100FD8BB4 /* CrossCountryInformationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9391428427F8B22100FD8BB4 /* CrossCountryInformationView.swift */; };
 		9391428927F8B33300FD8BB4 /* Collection+Chunked.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9391428827F8B33300FD8BB4 /* Collection+Chunked.swift */; };
 		9391428A27F8B33300FD8BB4 /* Collection+Chunked.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9391428827F8B33300FD8BB4 /* Collection+Chunked.swift */; };
+		93FA3F8C2801E87A00DED506 /* airports.csv in Resources */ = {isa = PBXBuildFile; fileRef = 93FA3F8B2801E87A00DED506 /* airports.csv */; };
+		93FA3F8D2801E87A00DED506 /* airports.csv in Resources */ = {isa = PBXBuildFile; fileRef = 93FA3F8B2801E87A00DED506 /* airports.csv */; };
+		93FA3F8F2801E89800DED506 /* AirportRegistry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93FA3F8E2801E89800DED506 /* AirportRegistry.swift */; };
+		93FA3F902801E89800DED506 /* AirportRegistry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93FA3F8E2801E89800DED506 /* AirportRegistry.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -114,6 +118,8 @@
 		9391428127F8B1ED00FD8BB4 /* TaxiInformationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaxiInformationView.swift; sourceTree = "<group>"; };
 		9391428427F8B22100FD8BB4 /* CrossCountryInformationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CrossCountryInformationView.swift; sourceTree = "<group>"; };
 		9391428827F8B33300FD8BB4 /* Collection+Chunked.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Collection+Chunked.swift"; sourceTree = "<group>"; };
+		93FA3F8B2801E87A00DED506 /* airports.csv */ = {isa = PBXFileReference; lastKnownFileType = file; name = airports.csv; path = "tools/ofm-parser/airports.csv"; sourceTree = SOURCE_ROOT; };
+		93FA3F8E2801E89800DED506 /* AirportRegistry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AirportRegistry.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -181,6 +187,8 @@
 				9327C42227F0710600EBC72F /* TimeParser.swift */,
 				9358AA4427F9076100C39044 /* DataContainers.swift */,
 				9358AA4727F908A700C39044 /* FlightManager.swift */,
+				93FA3F8B2801E87A00DED506 /* airports.csv */,
+				93FA3F8E2801E89800DED506 /* AirportRegistry.swift */,
 			);
 			path = Shared;
 			sourceTree = "<group>";
@@ -394,6 +402,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				93FA3F8C2801E87A00DED506 /* airports.csv in Resources */,
 				93365FF927EA8F18003C507D /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -402,6 +411,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				93FA3F8D2801E87A00DED506 /* airports.csv in Resources */,
 				93365FFA27EA8F18003C507D /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -445,6 +455,7 @@
 				934D87D127F9CD70004D9B87 /* LogbookEntryOverview.swift in Sources */,
 				9358AA4527F9076100C39044 /* DataContainers.swift in Sources */,
 				9391428227F8B1ED00FD8BB4 /* TaxiInformationView.swift in Sources */,
+				93FA3F8F2801E89800DED506 /* AirportRegistry.swift in Sources */,
 				9391427627F89DD500FD8BB4 /* RouteInformationView.swift in Sources */,
 				93365FF527EA8F18003C507D /* HobbsCalculatorApp.swift in Sources */,
 				9327C43A27F0D5F000EBC72F /* SparseLogbookEntryOverview.swift in Sources */,
@@ -475,6 +486,7 @@
 				934D87D227F9CD70004D9B87 /* LogbookEntryOverview.swift in Sources */,
 				9358AA4627F9076100C39044 /* DataContainers.swift in Sources */,
 				9391428327F8B1ED00FD8BB4 /* TaxiInformationView.swift in Sources */,
+				93FA3F902801E89800DED506 /* AirportRegistry.swift in Sources */,
 				9391427727F89DD900FD8BB4 /* RouteInformationView.swift in Sources */,
 				93365FF627EA8F18003C507D /* HobbsCalculatorApp.swift in Sources */,
 				9327C43B27F0D5F000EBC72F /* SparseLogbookEntryOverview.swift in Sources */,

@@ -16,21 +16,27 @@ struct LogbookEntryOverview: View {
         Group {
             if displayChoice == 1 {
                 SparseLogbookEntryOverview(entries: entries)
-                    .transition(.slide)
+                    .transition(
+                        .asymmetric(insertion: .move(edge: .trailing), removal: .move(edge: .leading))
+                    )
             } else {
                 CompactLogbookEntryOverview(entries: entries)
-                    .transition(.slide)
-            }
-        }.toolbar {
-            ToolbarItemGroup(placement: .navigationBarTrailing) {
-                Picker("Options", selection: $displayChoice) {
-                    Text("Compact").tag(0)
-                    Text("Detailed").tag(1)
-                }
-                    .pickerStyle(SegmentedPickerStyle())
-                    .padding()
+                    .transition(
+                        .asymmetric(insertion: .move(edge: .leading), removal: .move(edge: .trailing))
+                    )
             }
         }
+            .animation(.default, value: displayChoice)
+            .toolbar {
+                ToolbarItemGroup(placement: .navigationBarTrailing) {
+                    Picker("Options", selection: $displayChoice.animation()) {
+                        Text("Compact").tag(0)
+                        Text("Detailed").tag(1)
+                    }
+                        .pickerStyle(SegmentedPickerStyle())
+                        .padding()
+                }
+            }
     }
 }
 
