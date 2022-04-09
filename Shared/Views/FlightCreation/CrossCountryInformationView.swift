@@ -67,7 +67,6 @@ struct CrossCountryInformationView: View {
                 self.durations = percentages.map { Int(round($0 * crossCountryTime)) }
 
                 let remainder = self.crossCountryTime - self.durations.reduce(0) { $0 + $1 }
-                print("Remainder: \(remainder)")
                 self.durations[0] += remainder
             } else {
                 let (quotient, remainder) = self.crossCountryTime.quotientAndRemainder(dividingBy: legs.count)

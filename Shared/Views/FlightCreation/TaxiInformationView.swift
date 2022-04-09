@@ -37,11 +37,30 @@ struct TaxiInformationView: View {
         self.crossCountry = crossCountry
         self.taxiTime = Int(round(route.taxiTime) / 60)
 
-        let (initial, remainder) = taxiTime.quotientAndRemainder(dividingBy: route.waypoints.count + 2)
+        // Add a bias towards larger airports, indicated by an EDD_ identifier
+        var originShares = 1
+        var intermediateShares = route.waypoints.map { _ in 1 }
+        var destinationShares = 1
 
-        self.origin = initial + remainder
-        self.intermediates = route.waypoints.map { _ in initial }
-        self.destination = initial
+        if route.origin.starts(with: "EDD") {
+            originShares += 5
+        }
+
+        if route.destination.starts(with: "EDD") {
+            destinationShares += 5
+        }
+
+        for (index, intermediate) in route.waypoints.enumerated() {
+            if intermediate.starts(with: "EDD") {
+                intermediateShares[index] += 5
+            }
+        }
+
+        let totalShares = originShares + intermediateShares.reduce(0) { $0 + $1 } + destinationShares
+        let (perShare, remainder) = taxiTime.quotientAndRemainder(dividingBy: totalShares)
+        self.origin = originShares * perShare + remainder
+        self.intermediates = intermediateShares.map { $0 * perShare }
+        self.destination = destinationShares * perShare
     }
 
     var body: some View {
