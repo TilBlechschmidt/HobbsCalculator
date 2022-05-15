@@ -44,16 +44,38 @@ struct TripCalculatorView: View {
     var body: some View {
         VStack {
             List {
-                ForEach(flightManager.flights, id: \.self) { flight in
+                ForEach(flightManager.flights.reversed(), id: \.self) { flight in
                     NavigationLink {
                         LogbookEntryOverview(entries: flight.logbookEntries)
                             .navigationTitle("\(flight.route.origin) — \(flight.route.destination)")
                             .navigationBarTitleDisplayMode(.inline)
                     } label: {
                         HStack {
-                            Text("\(flight.route.origin) — \(flight.route.destination)")
+                            VStack {
+                                HStack {
+                                    Text(flight.route.origin)
+                                    Spacer()
+                                    Text("→")
+                                    Spacer()
+                                    Text(flight.route.destination)
+                                }.font(.body.monospaced())
+                                HStack {
+                                    Text(parser.format(flight.route.startupTime))
+                                    Spacer()
+                                    Text(parser.format(flight.route.shutdownTime))
+                                }
+                                    .foregroundColor(.secondary)
+                                    .font(.caption.monospaced())
+                            }
+                                .frame(minWidth: 10, idealWidth: 150, maxWidth: 200)
+                                .fixedSize()
                             Spacer()
-                            Text(parser.format(flight.route.blockTime)).foregroundColor(.secondary)
+                            VStack {
+                                Text(parser.format(flight.route.taxiTime))
+                                Text(parser.format(flight.route.flightTime))
+                            }
+                                .foregroundColor(.secondary)
+                                .font(.caption.monospaced())
                         }
                     }
                 }.onDelete(perform: deleteFlight(with:))
