@@ -63,6 +63,20 @@ struct LandingInformation: Hashable {
     }
 }
 
+extension LandingInformation.LandingCount: AdditiveArithmetic {
+    static func - (lhs: LandingInformation.LandingCount, rhs: LandingInformation.LandingCount) -> LandingInformation.LandingCount {
+        LandingInformation.LandingCount(count: lhs.count - rhs.count, time: lhs.time - rhs.time)
+    }
+
+    static func + (lhs: LandingInformation.LandingCount, rhs: LandingInformation.LandingCount) -> LandingInformation.LandingCount {
+        LandingInformation.LandingCount(count: lhs.count + rhs.count, time: lhs.time + rhs.time)
+    }
+
+    static var zero: LandingInformation.LandingCount {
+        LandingInformation.LandingCount(count: 0, time: 0.0)
+    }
+}
+
 struct CrossCountryInformation: Hashable {
     let durations: [TimeInterval]
 }
@@ -133,11 +147,25 @@ struct FlightInformation: Hashable {
             let location: LocationIdentifier
             let landings: LandingInformation.LandingCount
             let taxiTime: TimeInterval
+
+            func merge(with other: ExtractedWaypoint) -> ExtractedWaypoint? {
+                guard self.location == other.location else { return nil }
+                return ExtractedWaypoint(location: self.location, landings: self.landings + other.landings, taxiTime: self.taxiTime + other.taxiTime)
+            }
         }
 
         enum Leg {
             case CrossCountry(ExtractedWaypoint, TimeInterval, ExtractedWaypoint)
             case TrafficPatterns(ExtractedWaypoint, TimeInterval)
+
+            var waypoint: ExtractedWaypoint {
+                switch self {
+                case .CrossCountry(let waypoint, _, _):
+                    return waypoint
+                case .TrafficPatterns(let waypoint, _):
+                    return waypoint
+                }
+            }
         }
 
         struct TimeTracker {
@@ -185,18 +213,26 @@ struct FlightInformation: Hashable {
                 legs.append(Leg.TrafficPatterns(waypoint, waypoint.landings.time))
             }
 
-            let crossCountryOrigin = origin.extract(crossCountryLanding: false, consumeTaxiTime: true)
-            let crossCountryDestination = destination.extract(crossCountryLanding: true, consumeTaxiTime: destination.landings.count == 1)
-            assert(crossCountryOrigin.landings.count == 0)
-            assert(crossCountryOrigin.landings.time == 0)
-            assert(crossCountryDestination.landings.count == 1)
-            assert(crossCountryDestination.landings.time == 0)
-            legs.append(Leg.CrossCountry(crossCountryOrigin, travelTime, crossCountryDestination))
+            // Check if origin and destination are the same
+            if origin.location == destination.location {
+                let origin = origin.extract(crossCountryLanding: false, consumeTaxiTime: true)
+                let destination = destination.extract(crossCountryLanding: false, consumeTaxiTime: true)
+                let combined = origin.merge(with: destination)!
+                legs.append(Leg.TrafficPatterns(combined, combined.landings.time + travelTime))
+            } else {
+                let crossCountryOrigin = origin.extract(crossCountryLanding: false, consumeTaxiTime: true)
+                let crossCountryDestination = destination.extract(crossCountryLanding: true, consumeTaxiTime: destination.landings.count == 1)
+                assert(crossCountryOrigin.landings.count == 0)
+                assert(crossCountryOrigin.landings.time == 0)
+                assert(crossCountryDestination.landings.count == 1)
+                assert(crossCountryDestination.landings.time == 0)
+                legs.append(Leg.CrossCountry(crossCountryOrigin, travelTime, crossCountryDestination))
 
-            // Add traffic patterns at the destination if applicable
-            if destination.landings.count > 0 {
-                let waypoint = destination.extract(crossCountryLanding: false, consumeTaxiTime: true)
-                legs.append(Leg.TrafficPatterns(waypoint, waypoint.landings.time))
+                // Add traffic patterns at the destination if applicable
+                if destination.landings.count > 0 {
+                    let waypoint = destination.extract(crossCountryLanding: false, consumeTaxiTime: true)
+                    legs.append(Leg.TrafficPatterns(waypoint, waypoint.landings.time))
+                }
             }
         }
 
@@ -251,21 +287,25 @@ struct FlightInformation: Hashable {
             }
         }
 
-//        print(self)
+        print(self)
+        print(legs)
 //        print(logbookEntries)
-//        print("--------")
-//        print("actual:")
-//        print("\tflight: \(route.flightTime / 60)")
-//        print("\twall: \(route.blockTime / 60)")
-//        print("\ttaxi: \(route.taxiTime / 60)")
-//        print("expected:")
-//        print("\tflight: \((route.shutdownHobbs - route.startupHobbs) / 60)")
-//        print("\twall: \((route.shutdownTime - route.startupTime) / 60)")
-//        print("\ttaxi: \(((route.shutdownTime - route.startupTime) - (route.shutdownHobbs - route.startupHobbs)) / 60)")
-//        print("accumulated:")
-//        print("\tflightXC: \(crossCountry.durations.reduce(0) { $0 + $1 } / 60)")
-//        print("\tflightTP: \(landing.trafficPatternTime / 60)")
-//        print("\ttaxi: \((taxi.origin + taxi.destination + taxi.intermediates.reduce(0) { $0 + $1 }) / 60)")
+        print("--------")
+        print("actual:")
+        print("\tflight: \(route.flightTime / 60)")
+        print("\twall: \(route.blockTime / 60)")
+        print("\ttaxi: \(route.taxiTime / 60)")
+        print("expected:")
+        print("\tflight: \((route.shutdownHobbs - route.startupHobbs) / 60)")
+        print("\twall: \((route.shutdownTime - route.startupTime) / 60)")
+        print("\ttaxi: \(((route.shutdownTime - route.startupTime) - (route.shutdownHobbs - route.startupHobbs)) / 60)")
+        print("accumulated:")
+        print("\tflightXC: \(crossCountry.durations.reduce(0) { $0 + $1 } / 60)")
+        print("\tflightTP: \(landing.trafficPatternTime / 60)")
+        print("\ttaxi: \((taxi.origin + taxi.destination + taxi.intermediates.reduce(0) { $0 + $1 }) / 60)")
+        print("wallTimes:")
+        print("\ttracked: \(tracker.wallTime)")
+        print("\troute: \(route.shutdownTime)")
 
         assert(tracker.wallTime == route.shutdownTime, "expected and actual wall time did not match")
         assert(tracker.hobbsTime == route.shutdownHobbs, "expected and actual hobbs time did not match")

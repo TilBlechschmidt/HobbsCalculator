@@ -19,9 +19,9 @@ struct Waypoint: Identifiable, Equatable {
 
 struct RouteInformationView: View {
     @State var startup = FixedTime()
-    @State var origin = ""
+    @State var origin = "EDXQ"
     @State var waypoints: [Waypoint] = []
-    @State var destination = ""
+    @State var destination = "EDXQ"
     @State var shutdown = FixedTime()
 
     var inputsValid: Bool {
