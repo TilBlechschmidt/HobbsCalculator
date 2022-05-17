@@ -99,6 +99,18 @@ struct LogbookEntry {
     let blockEnd: Timestamp
 
     let landings: Int
+
+    var flightTime: TimeInterval {
+        arrival - departure
+    }
+
+    var blockTime: TimeInterval {
+        blockEnd - blockStart
+    }
+
+    var taxiTime: TimeInterval {
+        blockTime - flightTime
+    }
 }
 
 struct FlightInformation: Hashable {
@@ -155,17 +167,11 @@ struct FlightInformation: Hashable {
         }
 
         enum Leg {
-            case CrossCountry(ExtractedWaypoint, TimeInterval, ExtractedWaypoint)
-            case TrafficPatterns(ExtractedWaypoint, TimeInterval)
+            // Fraction of total taxi time spent before departure
+            typealias TaxiSplit = Double
 
-            var waypoint: ExtractedWaypoint {
-                switch self {
-                case .CrossCountry(let waypoint, _, _):
-                    return waypoint
-                case .TrafficPatterns(let waypoint, _):
-                    return waypoint
-                }
-            }
+            case CrossCountry(ExtractedWaypoint, TimeInterval, ExtractedWaypoint)
+            case TrafficPatterns(ExtractedWaypoint, TimeInterval, TaxiSplit?)
         }
 
         struct TimeTracker {
@@ -210,7 +216,7 @@ struct FlightInformation: Hashable {
             // Boundary condition, add traffic pattern circuits for the first airport if applicable
             if i == 0 && origin.landings.count > 0 {
                 let waypoint = origin.extract(crossCountryLanding: false, consumeTaxiTime: true)
-                legs.append(Leg.TrafficPatterns(waypoint, waypoint.landings.time))
+                legs.append(Leg.TrafficPatterns(waypoint, waypoint.landings.time, nil))
             }
 
             // Check if origin and destination are the same
@@ -218,7 +224,8 @@ struct FlightInformation: Hashable {
                 let origin = origin.extract(crossCountryLanding: false, consumeTaxiTime: true)
                 let destination = destination.extract(crossCountryLanding: false, consumeTaxiTime: true)
                 let combined = origin.merge(with: destination)!
-                legs.append(Leg.TrafficPatterns(combined, combined.landings.time + travelTime))
+                let taxiSplit = origin.taxiTime / (origin.taxiTime + destination.taxiTime)
+                legs.append(Leg.TrafficPatterns(combined, combined.landings.time + travelTime, taxiSplit))
             } else {
                 let crossCountryOrigin = origin.extract(crossCountryLanding: false, consumeTaxiTime: true)
                 let crossCountryDestination = destination.extract(crossCountryLanding: true, consumeTaxiTime: destination.landings.count == 1)
@@ -231,7 +238,7 @@ struct FlightInformation: Hashable {
                 // Add traffic patterns at the destination if applicable
                 if destination.landings.count > 0 {
                     let waypoint = destination.extract(crossCountryLanding: false, consumeTaxiTime: true)
-                    legs.append(Leg.TrafficPatterns(waypoint, waypoint.landings.time))
+                    legs.append(Leg.TrafficPatterns(waypoint, waypoint.landings.time, nil))
                 }
             }
         }
@@ -254,22 +261,27 @@ struct FlightInformation: Hashable {
                         blockEnd: tracker.add(taxi: destination.taxiTime),
                         landings: destination.landings.count)
                 )
-            case .TrafficPatterns(let waypoint, let flightTime):
+            case .TrafficPatterns(let waypoint, let flightTime, let taxiSplit):
                 let isFirst = i == 0
                 let isLast = i == legs.count - 1
 
                 let startTaxi: TimeInterval
                 let endTaxi: TimeInterval
 
-                if isFirst {
-                    startTaxi = waypoint.taxiTime
-                    endTaxi = 0
-                } else if isLast {
-                    startTaxi = 0
-                    endTaxi = waypoint.taxiTime
+                if let taxiSplit = taxiSplit {
+                    startTaxi = waypoint.taxiTime * taxiSplit
+                    endTaxi = waypoint.taxiTime * (1 - taxiSplit)
                 } else {
-                    startTaxi = waypoint.taxiTime / 2
-                    endTaxi = waypoint.taxiTime / 2
+                    if isFirst && legs.count > 1 {
+                        startTaxi = waypoint.taxiTime
+                        endTaxi = 0
+                    } else if isLast && legs.count > 1 {
+                        startTaxi = 0
+                        endTaxi = waypoint.taxiTime
+                    } else {
+                        startTaxi = waypoint.taxiTime / 2
+                        endTaxi = waypoint.taxiTime / 2
+                    }
                 }
 
                 logbookEntries.append(
@@ -287,7 +299,7 @@ struct FlightInformation: Hashable {
             }
         }
 
-//        print(self)
+        print(self)
 //        print(legs)
 //        print(logbookEntries)
 //        print("--------")

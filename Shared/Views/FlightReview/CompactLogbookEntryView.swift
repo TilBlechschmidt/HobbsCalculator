@@ -22,7 +22,7 @@ struct CompactLogbookEntryView: View {
 
     let landings: String
 
-    init(entry: LogbookEntry) {
+    init(entry: LogbookEntry, decimalHobbs: Bool) {
         let parser = TimeParser(allowInfiniteHours: true)
 
         self.origin = entry.origin
@@ -34,8 +34,13 @@ struct CompactLogbookEntryView: View {
         self.departure = parser.format(entry.departure)
         self.arrival = parser.format(entry.arrival)
 
-        self.hobbsStart = parser.format(entry.hobbsStart)
-        self.hobbsEnd = parser.format(entry.hobbsEnd)
+        if decimalHobbs {
+            self.hobbsStart = String(format: "%.2f", entry.hobbsStart / 60 / 60)
+            self.hobbsEnd = String(format: "%.2f", entry.hobbsEnd / 60 / 60)
+        } else {
+            self.hobbsStart = parser.format(entry.hobbsStart)
+            self.hobbsEnd = parser.format(entry.hobbsEnd)
+        }
 
         self.landings = "\(entry.landings)"
     }
@@ -132,7 +137,7 @@ struct CompactLogbookEntryView_Previews: PreviewProvider {
     static let entry = LogbookEntry(origin: "EDHE", destination: "EDXR", blockStart: 42360.0, departure: 42660.0, hobbsStart: 19738980.0, hobbsEnd: 19740540.0, arrival: 44220.0, blockEnd: 44640.0, landings: 6)
 
     static var previews: some View {
-        CompactLogbookEntryView(entry: entry)
+        CompactLogbookEntryView(entry: entry, decimalHobbs: true)
             .frame(maxHeight: 80)
 
         CompactLogbookEntryView()

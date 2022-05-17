@@ -10,31 +10,15 @@ import SwiftUI
 struct LogbookEntryOverview: View {
     let entries: [LogbookEntry]
 
-    @State var displayChoice = 0
+    @State var decimalHobbs = false
 
     var body: some View {
-        Group {
-            if displayChoice == 1 {
-                SparseLogbookEntryOverview(entries: entries)
-                    .transition(
-                        .asymmetric(insertion: .move(edge: .trailing), removal: .move(edge: .leading))
-                    )
-            } else {
-                CompactLogbookEntryOverview(entries: entries)
-                    .transition(
-                        .asymmetric(insertion: .move(edge: .leading), removal: .move(edge: .trailing))
-                    )
-            }
-        }
-            .animation(.default, value: displayChoice)
+        CompactLogbookEntryOverview(decimalHobbs: decimalHobbs, entries: entries)
             .toolbar {
                 ToolbarItemGroup(placement: .navigationBarTrailing) {
-                    Picker("Options", selection: $displayChoice.animation()) {
-                        Text("Compact").tag(0)
-                        Text("Detailed").tag(1)
-                    }
-                        .pickerStyle(SegmentedPickerStyle())
-                        .padding()
+                    Button(action: { decimalHobbs.toggle() }, label: {
+                        Image(systemName: decimalHobbs ? "clock" : "clock.fill")
+                    })
                 }
             }
     }

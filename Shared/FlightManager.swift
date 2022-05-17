@@ -10,6 +10,8 @@ import Foundation
 class FlightManager: ObservableObject {
     @Published var creationInProgress = false
     @Published var flights: [FlightInformation] = [
+//        FlightInformation(route: HobbsCalculator.RouteInformation(startupTime: 27840.0, startupHobbs: 20059980.0, origin: "EDXQ", waypoints: [], destination: "EDXQ", shutdownTime: 31500.0, shutdownHobbs: 20062140.0), landing: HobbsCalculator.LandingInformation(origin: HobbsCalculator.LandingInformation.LandingCount(count: 0, time: 0.0), intermediates: [], destination: HobbsCalculator.LandingInformation.LandingCount(count: 8, time: 1680.0)), crossCountry: HobbsCalculator.CrossCountryInformation(durations: [480.0]), taxi: HobbsCalculator.TaxiInformation(origin: 900.0, intermediates: [], destination: 600.0))
+
 //        FlightInformation(route: HobbsCalculator.RouteInformation(startupTime: 43320.0, startupHobbs: 20050320.0, origin: "EDXQ", waypoints: [], destination: "EDXQ", shutdownTime: 46500.0, shutdownHobbs: 20052960.0), landing: HobbsCalculator.LandingInformation(origin: HobbsCalculator.LandingInformation.LandingCount(count: 0, time: 0.0), intermediates: [], destination: HobbsCalculator.LandingInformation.LandingCount(count: 7, time: 1440.0)), crossCountry: HobbsCalculator.CrossCountryInformation(durations: [1200.0]), taxi: HobbsCalculator.TaxiInformation(origin: 300.0, intermediates: [], destination: 240.0))
 //        FlightInformation(
 //            route: HobbsCalculator.RouteInformation(
@@ -33,7 +35,7 @@ class FlightManager: ObservableObject {
     ]
 
     func add(flight: FlightInformation) {
-        flights.append(flight)
+        flights.insert(flight, at: 0)
         creationInProgress = false
     }
 

@@ -18,19 +18,22 @@ struct OptionalLandingCount: Equatable {
 
 struct LandingInformationView: View {
     let route: RouteInformation
+    let mergeOriginDestination: Bool
+
+    static let defaultTimePerTrafficPatternCircuit: TimeInterval = 4*60
 
     @State var originLandings = OptionalLandingCount(count: 0, time: 0)
     @State var intermediateLandings: [OptionalLandingCount]
-    @State var destinationLandings = OptionalLandingCount(count: 1, time: 0)
+    @State var destinationLandings: OptionalLandingCount
 
     @State var simplified = true
-    @State var timePerTrafficPatternCircuit: TimeInterval = 4 * 60
+    @State var timePerTrafficPatternCircuit: TimeInterval = defaultTimePerTrafficPatternCircuit
 
     @EnvironmentObject var airportRegistry: AirportRegistry
 
     var landingInformation: LandingInformation {
         assert(originLandings.count > 0 || originLandings.time == 0)
-        assert(destinationLandings.count > 1 || destinationLandings.time == 0)
+        assert(destinationLandings.count > 1 || destinationLandings.time == 0 || mergeOriginDestination)
         for landing in intermediateLandings {
             assert(landing.count > 1 || landing.time == 0)
         }
@@ -41,18 +44,18 @@ struct LandingInformationView: View {
     }
 
     var timeOvercommit: Bool {
-        let minimumCrossCountryTime = TimeInterval(route.legs.count * CrossCountryInformationView.minimumDurationPerLeg)
+        let minimumCrossCountryTime = mergeOriginDestination ? 0.0 : TimeInterval(route.legs.count * CrossCountryInformationView.minimumDurationPerLeg)
         let flightTime = route.flightTime
         let patternTime = (originLandings.time ?? 0) + intermediateLandings.reduce(0) { $0 + ($1.time ?? 0) } + (destinationLandings.time ?? 0)
         let remainingTime = flightTime - patternTime
 
-        return remainingTime <= minimumCrossCountryTime
+        return remainingTime < minimumCrossCountryTime
     }
 
     var inputsValid: Bool {
         (originLandings.count > 0 || originLandings.time == 0)
         && intermediateLandings.reduce(true) { $0 && ($1.count > 1 || $1.time == 0)}
-        && (destinationLandings.count > 1 || destinationLandings.time == 0)
+        && (destinationLandings.count > 1 || destinationLandings.time == 0 || mergeOriginDestination)
         && originLandings.time != nil
         && intermediateLandings.reduce(true) { $0 && $1.time != nil }
         && destinationLandings.time != nil
@@ -62,45 +65,56 @@ struct LandingInformationView: View {
     init(_ route: RouteInformation) {
         self.route = route
         self.intermediateLandings = route.waypoints.map { _ in OptionalLandingCount(count: 1, time: 0) }
+        self.mergeOriginDestination = route.waypoints.count == 0 && route.origin == route.destination
+
+        if mergeOriginDestination {
+            destinationLandings = OptionalLandingCount(count: 1, time: route.flightTime)
+        } else {
+            destinationLandings = OptionalLandingCount(count: 1, time: 0)
+        }
     }
 
     var body: some View {
         VStack {
-            Picker("Options", selection: Binding.init(get: { simplified ? 0 : 1 }, set: { simplified = $0 == 0 })) {
-                Text("Simplified").tag(0)
-                Text("Detailed").tag(1)
-            }
-                .pickerStyle(SegmentedPickerStyle())
-                .padding(.horizontal)
-
-            if timeOvercommit {
-                Text("Too much time allocated to traffic patterns, nothing would be left for cross-country travel!")
-                    .foregroundColor(.red)
-                    .font(.caption)
+            if !mergeOriginDestination {
+                Picker("Options", selection: Binding.init(get: { simplified ? 0 : 1 }, set: { simplified = $0 == 0 })) {
+                    Text("Simplified").tag(0)
+                    Text("Detailed").tag(1)
+                }
+                    .pickerStyle(SegmentedPickerStyle())
                     .padding(.horizontal)
-                    .multilineTextAlignment(.center)
+
+                if timeOvercommit {
+                    Text("Too much time allocated to traffic patterns, nothing would be left for cross-country travel!")
+                        .foregroundColor(.red)
+                        .font(.caption)
+                        .padding(.horizontal)
+                        .multilineTextAlignment(.center)
+                }
             }
 
             List {
-                Section {
-                    if simplified {
-                        StepperRow(value: $originLandings.count, range: 0...Int.max, icon: "airplane.departure", label: route.origin, unit: "x")
-                    } else {
-                        StepperRow(value: $originLandings.animation().count, range: 0...Int.max, icon: "number", label: "Landings", unit: "x")
+                if !mergeOriginDestination {
+                    Section {
+                        if simplified {
+                            StepperRow(value: $originLandings.count, range: 0...Int.max, icon: "airplane.departure", label: route.origin, unit: "x")
+                        } else {
+                            StepperRow(value: $originLandings.animation().count, range: 0...Int.max, icon: "number", label: "Landings", unit: "x")
 
-                        if originLandings.count > 0 {
-                            LabelledValue(icon: "stopwatch", label: "Traffic pattern time") {
-                                TimeInput(value: $originLandings.time)
+                            if originLandings.count > 0 {
+                                LabelledValue(icon: "stopwatch", label: "Traffic pattern time") {
+                                    TimeInput(value: $originLandings.time)
+                                }
                             }
                         }
-                    }
-                } header: {
-                    Text(simplified ? "Origin" : "\(route.origin) — Origin")
-                } footer: {
-                    if simplified {
-                        Text("\(Int((originLandings.time ?? 0) / 60)) min allotted for traffic circuits")
-                    } else if originLandings.count > 0 {
-                        Text("All landings should be considered as you normally depart without making circuits")
+                    } header: {
+                        Text(simplified ? "Origin" : "\(route.origin) — Origin")
+                    } footer: {
+                        if simplified {
+                            Text("\(Int((originLandings.time ?? 0) / 60)) min allotted for traffic circuits")
+                        } else if originLandings.count > 0 {
+                            Text("All landings should be considered as you normally depart without making circuits")
+                        }
                     }
                 }
 
@@ -152,11 +166,15 @@ struct LandingInformationView: View {
                         }
                     }
                 } header: {
-                    Text(simplified ? "Destination" : "\(route.destination) — Destination")
+                    if mergeOriginDestination {
+                        Text("Traffic patterns")
+                    } else {
+                        Text(simplified ? "Destination" : "\(route.destination) — Destination")
+                    }
                 } footer: {
-                    if simplified {
+                    if simplified && !mergeOriginDestination {
                         Text("\(Int((destinationLandings.time ?? 0) / 60)) min allotted for traffic circuits")
-                    } else if destinationLandings.count > 1 {
+                    } else if destinationLandings.count > 1 && !mergeOriginDestination {
                         Text("First landing is considered part of cross-country time and should not be included in time")
                     }
                 }
@@ -196,7 +214,9 @@ struct LandingInformationView: View {
     }
 
     func updateDestinationTime(_ value: OptionalLandingCount) {
-        if simplified {
+        if mergeOriginDestination {
+            destinationLandings.time = route.flightTime
+        } else if simplified {
             destinationLandings.time = Double(destinationLandings.count - 1) * timePerTrafficPatternCircuit
         } else if destinationLandings.count == 1 {
             destinationLandings.time = 0

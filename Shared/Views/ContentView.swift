@@ -44,7 +44,7 @@ struct TripCalculatorView: View {
     var body: some View {
         VStack {
             List {
-                ForEach(flightManager.flights.reversed(), id: \.self) { flight in
+                ForEach(flightManager.flights, id: \.self) { flight in
                     NavigationLink {
                         LogbookEntryOverview(entries: flight.logbookEntries)
                             .navigationTitle("\(flight.route.origin) — \(flight.route.destination)")
@@ -71,8 +71,8 @@ struct TripCalculatorView: View {
                                 .fixedSize()
                             Spacer()
                             VStack {
-                                Text(parser.format(flight.route.taxiTime))
                                 Text(parser.format(flight.route.flightTime))
+                                Text(parser.format(flight.route.blockTime))
                             }
                                 .foregroundColor(.secondary)
                                 .font(.caption.monospaced())

@@ -8,14 +8,26 @@
 import SwiftUI
 
 struct CompactLogbookEntryOverview: View {
+    let decimalHobbs: Bool
+    let parser = TimeParser(allowInfiniteHours: true)
     let entries: [LogbookEntry]
 
     var body: some View {
         List {
             ForEach(entries.indices, id: \.self) { index in
-                Section("Leg #\(index + 1)") {
-                    CompactLogbookEntryView(entry: entries[index])
+                Section {
+                    CompactLogbookEntryView(entry: entries[index], decimalHobbs: decimalHobbs)
                         .frame(minHeight: 70)
+                } header: {
+                    Text("Leg #\(index + 1)")
+                } footer: {
+                    HStack {
+                        Spacer()
+                        VStack {
+                            Text("flight \(parser.format(entries[index].flightTime))")
+                            Text(" block \(parser.format(entries[index].blockTime))")
+                        }.font(.caption.monospaced())
+                    }
                 }.headerProminence(.increased)
             }
 
@@ -37,6 +49,6 @@ struct CompactLogbookEntryOverview_Previews: PreviewProvider {
     ]
 
     static var previews: some View {
-        CompactLogbookEntryOverview(entries: entries)
+        CompactLogbookEntryOverview(decimalHobbs: false, entries: entries)
     }
 }
