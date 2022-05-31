@@ -8,13 +8,14 @@
 import SwiftUI
 
 struct TimeInput: View {
-    @FocusState private var hourInputFocused: Bool
     @FocusState private var inputFocused: Bool
+    @FocusState private var fakeInputFocused: Bool
 
     @State var hours: String
     @State var minutes: String
 
     @State var ignoreChanges: Bool = false
+    @State var useNumpad: Bool = false
 
     let parser: TimeParser
     let value: Binding<TimeInterval?>
@@ -38,26 +39,21 @@ struct TimeInput: View {
             TextField("00", text: $hours)
                 .fixedSize()
                 .monospacedDigit()
-                .keyboardType(.decimalPad)
                 .multilineTextAlignment(.trailing)
-                .focused($hourInputFocused)
+                .disabled(true)
             Text(":")
             TextField("00", text: $minutes)
                 .fixedSize()
                 .monospacedDigit()
-                .keyboardType(.decimalPad)
                 .multilineTextAlignment(.leading)
                 .focused($inputFocused)
+                .keyboardType(.numberPad)
         }
             // Updating the value in the same render cycle makes SwiftUI complain
             // but for now it works.
             .onChange(of: hours, perform: overflowHandling)
             .onChange(of: minutes, perform: overflowHandling)
-            .onChange(of: hourInputFocused) { _ in
-                if hourInputFocused {
-                    inputFocused = true
-                }
-            }
+            // Moves cursor to the end of the input when focused
             .onChange(of: inputFocused) { _ in
                 if inputFocused {
                     ignoreChanges = true
@@ -69,13 +65,22 @@ struct TimeInput: View {
                     }
                 }
             }
+            // Moves focus from fake input to target input
+            // Workaround for a bug where a change from alphanumeric keyboard to numberPad causes the scrollview to glitch out
+            .onChange(of: fakeInputFocused) { _ in
+                if fakeInputFocused {
+                    inputFocused = true
+                }
+            }
             .overlay {
-                Rectangle()
-                    // We can not use .clear or 0 because then SwiftUI just removes the element and the tapGesture will not work
-                    .opacity(0.01)
-                    .onTapGesture {
-                        inputFocused = true
-                    }
+                GeometryReader { geometry in
+                    TextField("", text: Binding.init(get: { "" }, set: { _ in }))
+                        .frame(width: geometry.size.width, height: geometry.size.height)
+                        .background(.background)
+                        // We can not use .clear or 0 or any value below 0.05 because then SwiftUI just removes the focus target and the .focused will not work
+                        .opacity(0.05)
+                        .focused($fakeInputFocused)
+                }
             }
     }
 

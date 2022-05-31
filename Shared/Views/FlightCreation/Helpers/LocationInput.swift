@@ -12,10 +12,7 @@ struct LocationInput: View {
     var value: Binding<LocationIdentifier>
 
     @EnvironmentObject var airportRegistry: AirportRegistry
-
-    var matchedAirportName: String? {
-        airportRegistry.airports[value.wrappedValue]?.name
-    }
+    @State var matchedAirportName: String?
 
     init(_ title: String, location: Binding<LocationIdentifier>) {
         self.title = title
@@ -25,6 +22,7 @@ struct LocationInput: View {
     var body: some View {
         VStack(spacing: 0) {
             TextField(title, text: value.animation())
+                .disableAutocorrection(true)
 
             if let airportName = matchedAirportName {
                 HStack {
@@ -36,7 +34,12 @@ struct LocationInput: View {
         }
             .mask(Rectangle())
             .multilineTextAlignment(.trailing)
-            .onChange(of: value.wrappedValue) { _ in value.wrappedValue = value.wrappedValue.uppercased() }
+            .onChange(of: value.wrappedValue) { _ in
+                withAnimation {
+                    value.wrappedValue = value.wrappedValue.uppercased()
+                    matchedAirportName = airportRegistry.airports[value.wrappedValue]?.name
+                }
+            }
     }
 }
 

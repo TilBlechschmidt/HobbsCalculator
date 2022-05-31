@@ -19,9 +19,9 @@ struct Waypoint: Identifiable, Equatable {
 
 struct RouteInformationView: View {
     @State var startup = FixedTime()
-    @State var origin = "EDXQ"
+    @State var origin = ""
     @State var waypoints: [Waypoint] = []
-    @State var destination = "EDXQ"
+    @State var destination = ""
     @State var shutdown = FixedTime()
 
     var inputsValid: Bool {
@@ -83,12 +83,12 @@ struct RouteInformationView: View {
 
             Section {
                 LabelledValue(icon: "airplane.departure", label: "Origin") {
-                    LocationInput("EDDH", location: $origin).fixedSize()
+                    LocationInput("ICAO", location: $origin).fixedSize()
                 }
 
                 ForEach($waypoints.animation()) { waypoint in
                     LabelledValue(icon: "mappin.and.ellipse", label: "Airport") {
-                        LocationInput("EDXQ", location: waypoint.location)
+                        LocationInput("ICAO", location: waypoint.location)
                             .fixedSize()
                     }
                 }.onDelete(perform: deleteWaypoint(with:))
@@ -98,7 +98,7 @@ struct RouteInformationView: View {
                 }
 
                 LabelledValue(icon: "airplane.arrival", label: "Destination") {
-                    LocationInput("EDDH", location: $destination).fixedSize()
+                    LocationInput("ICAO", location: $destination).fixedSize()
                 }
             } header: {
                 Text("Route")

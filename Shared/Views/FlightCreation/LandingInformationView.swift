@@ -17,6 +17,8 @@ struct OptionalLandingCount: Equatable {
 }
 
 struct LandingInformationView: View {
+    let parser = TimeParser(allowInfiniteHours: true)
+
     let route: RouteInformation
     let mergeOriginDestination: Bool
 
@@ -43,12 +45,16 @@ struct LandingInformationView: View {
                                   destination: destinationLandings.landingCount)
     }
 
+    var patternTime: TimeInterval {
+        (originLandings.time ?? 0) + intermediateLandings.reduce(0) { $0 + ($1.time ?? 0) } + (destinationLandings.time ?? 0)
+    }
+
+    var remainingTime: TimeInterval {
+        route.flightTime - patternTime
+    }
+
     var timeOvercommit: Bool {
         let minimumCrossCountryTime = mergeOriginDestination ? 0.0 : TimeInterval(route.legs.count * CrossCountryInformationView.minimumDurationPerLeg)
-        let flightTime = route.flightTime
-        let patternTime = (originLandings.time ?? 0) + intermediateLandings.reduce(0) { $0 + ($1.time ?? 0) } + (destinationLandings.time ?? 0)
-        let remainingTime = flightTime - patternTime
-
         return remainingTime < minimumCrossCountryTime
     }
 
@@ -179,6 +185,16 @@ struct LandingInformationView: View {
                     }
                 }
             }.listStyle(.insetGrouped)
+
+            if !mergeOriginDestination {
+                HStack {
+                    Spacer()
+                    VerticallyLabelledValue(parser.format(patternTime), label: "TP")
+                    Spacer()
+                    VerticallyLabelledValue(parser.format(remainingTime), label: "XC")
+                    Spacer()
+                }.padding(.bottom, 8)
+            }
         }
             .animation(.default, value: simplified)
             .onChange(of: originLandings, perform: updateOriginTime)
@@ -237,6 +253,6 @@ struct LandingInformationView_Previews: PreviewProvider {
     static var previews: some View {
         NavigationView {
             LandingInformationView(flight)
-        }
+        }.environmentObject(AirportRegistry.default)
     }
 }
