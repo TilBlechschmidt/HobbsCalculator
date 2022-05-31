@@ -172,9 +172,7 @@ struct LandingInformationView: View {
                         }
                     }
                 } header: {
-                    if mergeOriginDestination {
-                        Text("Traffic patterns")
-                    } else {
+                    if !mergeOriginDestination {
                         Text(simplified ? "Destination" : "\(route.destination) — Destination")
                     }
                 } footer: {

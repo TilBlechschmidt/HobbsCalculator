@@ -16,7 +16,7 @@ struct LegInformation {
     let destination: LocationIdentifier
 }
 
-struct RouteInformation: Hashable {
+struct RouteInformation: Hashable, Codable {
     let startupTime: Timestamp
     let startupHobbs: HobbsValue
 
@@ -48,8 +48,8 @@ struct RouteInformation: Hashable {
     }
 }
 
-struct LandingInformation: Hashable {
-    struct LandingCount: Hashable {
+struct LandingInformation: Hashable, Codable {
+    struct LandingCount: Hashable, Codable {
         var count: Int
         var time: TimeInterval
     }
@@ -77,11 +77,11 @@ extension LandingInformation.LandingCount: AdditiveArithmetic {
     }
 }
 
-struct CrossCountryInformation: Hashable {
+struct CrossCountryInformation: Hashable, Codable {
     let durations: [TimeInterval]
 }
 
-struct TaxiInformation: Hashable {
+struct TaxiInformation: Hashable, Codable {
     let origin: TimeInterval
     let intermediates: [TimeInterval]
     let destination: TimeInterval
@@ -113,7 +113,7 @@ struct LogbookEntry {
     }
 }
 
-struct FlightInformation: Hashable {
+struct FlightInformation: Hashable, Codable {
     let route: RouteInformation
     let landing: LandingInformation
     let crossCountry: CrossCountryInformation
@@ -299,7 +299,7 @@ struct FlightInformation: Hashable {
             }
         }
 
-        print(self)
+//        print(self)
 //        print(legs)
 //        print(logbookEntries)
 //        print("--------")

@@ -57,6 +57,10 @@
 		9391428627F8B22100FD8BB4 /* CrossCountryInformationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9391428427F8B22100FD8BB4 /* CrossCountryInformationView.swift */; };
 		9391428927F8B33300FD8BB4 /* Collection+Chunked.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9391428827F8B33300FD8BB4 /* Collection+Chunked.swift */; };
 		9391428A27F8B33300FD8BB4 /* Collection+Chunked.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9391428827F8B33300FD8BB4 /* Collection+Chunked.swift */; };
+		93DC360E28464D7500E3AE26 /* PersistenceManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93DC360D28464D7500E3AE26 /* PersistenceManager.swift */; };
+		93DC360F28464D7500E3AE26 /* PersistenceManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93DC360D28464D7500E3AE26 /* PersistenceManager.swift */; };
+		93DC36112846573B00E3AE26 /* TutorialView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93DC36102846573B00E3AE26 /* TutorialView.swift */; };
+		93DC36122846573B00E3AE26 /* TutorialView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93DC36102846573B00E3AE26 /* TutorialView.swift */; };
 		93FA3F8C2801E87A00DED506 /* airports.csv in Resources */ = {isa = PBXBuildFile; fileRef = 93FA3F8B2801E87A00DED506 /* airports.csv */; };
 		93FA3F8D2801E87A00DED506 /* airports.csv in Resources */ = {isa = PBXBuildFile; fileRef = 93FA3F8B2801E87A00DED506 /* airports.csv */; };
 		93FA3F8F2801E89800DED506 /* AirportRegistry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93FA3F8E2801E89800DED506 /* AirportRegistry.swift */; };
@@ -115,6 +119,8 @@
 		9391428127F8B1ED00FD8BB4 /* TaxiInformationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaxiInformationView.swift; sourceTree = "<group>"; };
 		9391428427F8B22100FD8BB4 /* CrossCountryInformationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CrossCountryInformationView.swift; sourceTree = "<group>"; };
 		9391428827F8B33300FD8BB4 /* Collection+Chunked.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Collection+Chunked.swift"; sourceTree = "<group>"; };
+		93DC360D28464D7500E3AE26 /* PersistenceManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersistenceManager.swift; sourceTree = "<group>"; };
+		93DC36102846573B00E3AE26 /* TutorialView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorialView.swift; sourceTree = "<group>"; };
 		93FA3F8B2801E87A00DED506 /* airports.csv */ = {isa = PBXFileReference; lastKnownFileType = text; name = airports.csv; path = "tools/ofm-parser/airports.csv"; sourceTree = SOURCE_ROOT; };
 		93FA3F8E2801E89800DED506 /* AirportRegistry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AirportRegistry.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -157,6 +163,7 @@
 				934D87C927F9C4AB004D9B87 /* FlightReview */,
 				9391427427F89DC900FD8BB4 /* FlightCreation */,
 				93365FCE27EA8F15003C507D /* ContentView.swift */,
+				93DC36102846573B00E3AE26 /* TutorialView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -186,6 +193,7 @@
 				9358AA4727F908A700C39044 /* FlightManager.swift */,
 				93FA3F8B2801E87A00DED506 /* airports.csv */,
 				93FA3F8E2801E89800DED506 /* AirportRegistry.swift */,
+				93DC360D28464D7500E3AE26 /* PersistenceManager.swift */,
 			);
 			path = Shared;
 			sourceTree = "<group>";
@@ -354,7 +362,7 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
 				LastSwiftUpdateCheck = 1330;
-				LastUpgradeCheck = 1330;
+				LastUpgradeCheck = 1340;
 				TargetAttributes = {
 					93365FD327EA8F18003C507D = {
 						CreatedOnToolsVersion = 13.3;
@@ -436,10 +444,12 @@
 				93365FF727EA8F18003C507D /* ContentView.swift in Sources */,
 				9391428927F8B33300FD8BB4 /* Collection+Chunked.swift in Sources */,
 				934D87C727F9C427004D9B87 /* TimeStepperRow.swift in Sources */,
+				93DC360E28464D7500E3AE26 /* PersistenceManager.swift in Sources */,
 				9391427927F8AAB200FD8BB4 /* LocationInput.swift in Sources */,
 				934D87C427F9C406004D9B87 /* VerticallyLabelledValue.swift in Sources */,
 				9358AA3827F8C75400C39044 /* View+CornerRadius.swift in Sources */,
 				9358AA3B27F8C8E200C39044 /* View+Conditional.swift in Sources */,
+				93DC36112846573B00E3AE26 /* TutorialView.swift in Sources */,
 				934D87CB27F9C4C1004D9B87 /* CompactLogbookEntryOverview.swift in Sources */,
 				9391427C27F8AB0300FD8BB4 /* LandingInformationView.swift in Sources */,
 				934D87CE27F9C589004D9B87 /* CompactLogbookEntryView.swift in Sources */,
@@ -466,10 +476,12 @@
 				93365FF827EA8F18003C507D /* ContentView.swift in Sources */,
 				9391428A27F8B33300FD8BB4 /* Collection+Chunked.swift in Sources */,
 				934D87C827F9C427004D9B87 /* TimeStepperRow.swift in Sources */,
+				93DC360F28464D7500E3AE26 /* PersistenceManager.swift in Sources */,
 				9391427A27F8AAB400FD8BB4 /* LocationInput.swift in Sources */,
 				934D87C527F9C406004D9B87 /* VerticallyLabelledValue.swift in Sources */,
 				9358AA3927F8C75400C39044 /* View+CornerRadius.swift in Sources */,
 				9358AA3C27F8C8E200C39044 /* View+Conditional.swift in Sources */,
+				93DC36122846573B00E3AE26 /* TutorialView.swift in Sources */,
 				934D87CC27F9C4C1004D9B87 /* CompactLogbookEntryOverview.swift in Sources */,
 				9391427D27F8AB0300FD8BB4 /* LandingInformationView.swift in Sources */,
 				934D87CF27F9C589004D9B87 /* CompactLogbookEntryView.swift in Sources */,
@@ -638,7 +650,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 18;
+				CURRENT_PROJECT_VERSION = 19;
 				DEVELOPMENT_TEAM = LQWS3ZT7UK;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -670,7 +682,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 18;
+				CURRENT_PROJECT_VERSION = 19;
 				DEVELOPMENT_TEAM = LQWS3ZT7UK;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -703,9 +715,10 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = macOS/macOS.entitlements;
+				CODE_SIGN_IDENTITY = "-";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 18;
+				CURRENT_PROJECT_VERSION = 19;
 				DEVELOPMENT_TEAM = LQWS3ZT7UK;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
@@ -732,9 +745,10 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = macOS/macOS.entitlements;
+				CODE_SIGN_IDENTITY = "-";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 18;
+				CURRENT_PROJECT_VERSION = 19;
 				DEVELOPMENT_TEAM = LQWS3ZT7UK;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
