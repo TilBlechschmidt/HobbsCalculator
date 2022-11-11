@@ -7,8 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		9327C42027EFCD2A00EBC72F /* TimeInput.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9327C41F27EFCD2A00EBC72F /* TimeInput.swift */; };
-		9327C42127EFCD2A00EBC72F /* TimeInput.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9327C41F27EFCD2A00EBC72F /* TimeInput.swift */; };
 		9327C42327F0710600EBC72F /* TimeParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9327C42227F0710600EBC72F /* TimeParser.swift */; };
 		9327C42427F0710600EBC72F /* TimeParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9327C42227F0710600EBC72F /* TimeParser.swift */; };
 		93365FE627EA8F18003C507D /* Tests_iOS.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93365FE527EA8F18003C507D /* Tests_iOS.swift */; };
@@ -43,6 +41,8 @@
 		9358AA4627F9076100C39044 /* DataContainers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9358AA4427F9076100C39044 /* DataContainers.swift */; };
 		9358AA4827F908A700C39044 /* FlightManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9358AA4727F908A700C39044 /* FlightManager.swift */; };
 		9358AA4927F908A700C39044 /* FlightManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9358AA4727F908A700C39044 /* FlightManager.swift */; };
+		9367997A291E92A50018DA1E /* TimeInput.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93679979291E92A50018DA1E /* TimeInput.swift */; };
+		9367997B291E92A50018DA1E /* TimeInput.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93679979291E92A50018DA1E /* TimeInput.swift */; };
 		9391427627F89DD500FD8BB4 /* RouteInformationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9391427527F89DD500FD8BB4 /* RouteInformationView.swift */; };
 		9391427727F89DD900FD8BB4 /* RouteInformationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9391427527F89DD500FD8BB4 /* RouteInformationView.swift */; };
 		9391427927F8AAB200FD8BB4 /* LocationInput.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9391427827F8AAB200FD8BB4 /* LocationInput.swift */; };
@@ -87,7 +87,6 @@
 /* Begin PBXFileReference section */
 		931F3A0627F1047100B911F3 /* HobbsCalculator--iOS--Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "HobbsCalculator--iOS--Info.plist"; sourceTree = "<group>"; };
 		931F3A0827F1068700B911F3 /* HobbsCalculator--macOS--Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "HobbsCalculator--macOS--Info.plist"; sourceTree = "<group>"; };
-		9327C41F27EFCD2A00EBC72F /* TimeInput.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeInput.swift; sourceTree = "<group>"; };
 		9327C42227F0710600EBC72F /* TimeParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeParser.swift; sourceTree = "<group>"; };
 		93365FCD27EA8F15003C507D /* HobbsCalculatorApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HobbsCalculatorApp.swift; sourceTree = "<group>"; };
 		93365FCE27EA8F15003C507D /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -112,6 +111,7 @@
 		9358AA4027F8F2AA00C39044 /* Color+Hex.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Color+Hex.swift"; sourceTree = "<group>"; };
 		9358AA4427F9076100C39044 /* DataContainers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataContainers.swift; sourceTree = "<group>"; };
 		9358AA4727F908A700C39044 /* FlightManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlightManager.swift; sourceTree = "<group>"; };
+		93679979291E92A50018DA1E /* TimeInput.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeInput.swift; sourceTree = "<group>"; };
 		9391427527F89DD500FD8BB4 /* RouteInformationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RouteInformationView.swift; sourceTree = "<group>"; };
 		9391427827F8AAB200FD8BB4 /* LocationInput.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationInput.swift; sourceTree = "<group>"; };
 		9391427B27F8AB0300FD8BB4 /* LandingInformationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LandingInformationView.swift; sourceTree = "<group>"; };
@@ -248,12 +248,12 @@
 		9358AA4327F9062100C39044 /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
-				9327C41F27EFCD2A00EBC72F /* TimeInput.swift */,
 				9391427827F8AAB200FD8BB4 /* LocationInput.swift */,
 				9391427E27F8AFC500FD8BB4 /* StepperRow.swift */,
 				9358AA3D27F8F00300C39044 /* SliderLabelView.swift */,
 				934D87C327F9C406004D9B87 /* VerticallyLabelledValue.swift */,
 				934D87C627F9C427004D9B87 /* TimeStepperRow.swift */,
+				93679979291E92A50018DA1E /* TimeInput.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -454,10 +454,10 @@
 				9391427C27F8AB0300FD8BB4 /* LandingInformationView.swift in Sources */,
 				934D87CE27F9C589004D9B87 /* CompactLogbookEntryView.swift in Sources */,
 				9358AA4127F8F2AA00C39044 /* Color+Hex.swift in Sources */,
+				9367997A291E92A50018DA1E /* TimeInput.swift in Sources */,
 				9358AA3E27F8F00300C39044 /* SliderLabelView.swift in Sources */,
 				9327C42327F0710600EBC72F /* TimeParser.swift in Sources */,
 				9391428527F8B22100FD8BB4 /* CrossCountryInformationView.swift in Sources */,
-				9327C42027EFCD2A00EBC72F /* TimeInput.swift in Sources */,
 				934D87D127F9CD70004D9B87 /* LogbookEntryOverview.swift in Sources */,
 				9358AA4527F9076100C39044 /* DataContainers.swift in Sources */,
 				9391428227F8B1ED00FD8BB4 /* TaxiInformationView.swift in Sources */,
@@ -486,10 +486,10 @@
 				9391427D27F8AB0300FD8BB4 /* LandingInformationView.swift in Sources */,
 				934D87CF27F9C589004D9B87 /* CompactLogbookEntryView.swift in Sources */,
 				9358AA4227F8F2AA00C39044 /* Color+Hex.swift in Sources */,
+				9367997B291E92A50018DA1E /* TimeInput.swift in Sources */,
 				9358AA3F27F8F00300C39044 /* SliderLabelView.swift in Sources */,
 				9327C42427F0710600EBC72F /* TimeParser.swift in Sources */,
 				9391428627F8B22100FD8BB4 /* CrossCountryInformationView.swift in Sources */,
-				9327C42127EFCD2A00EBC72F /* TimeInput.swift in Sources */,
 				934D87D227F9CD70004D9B87 /* LogbookEntryOverview.swift in Sources */,
 				9358AA4627F9076100C39044 /* DataContainers.swift in Sources */,
 				9391428327F8B1ED00FD8BB4 /* TaxiInformationView.swift in Sources */,
