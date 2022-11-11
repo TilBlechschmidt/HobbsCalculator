@@ -7,6 +7,19 @@
 
 import Foundation
 
+struct GroupedFlights: Hashable, Equatable {
+    let dateComponents: DateComponents
+    let flights: [PersistedFlightInformation]
+
+    var description: String! {
+        let date = Calendar.current.date(from: dateComponents)
+        let formatter = DateFormatter()
+        formatter.timeStyle = .none
+        formatter.dateStyle = .medium
+        return formatter.string(for: date)
+    }
+}
+
 class FlightManager: ObservableObject {
     let persistenceManager: PersistenceManager?
 
@@ -36,6 +49,20 @@ class FlightManager: ObservableObject {
 //                intermediates: [900.0],
 //                destination: 900.0))
     ]
+
+    var groupedFlights: [GroupedFlights] {
+        let grouped = Dictionary(grouping: flights) { (flight) -> DateComponents in
+            Calendar.current.dateComponents([.year, .month, .day], from: flight.date)
+        }
+
+        return grouped
+            .sorted {
+                $0.key > $1.key
+            }
+            .map {
+                GroupedFlights(dateComponents: $0.key, flights: $0.value)
+            }
+    }
 
     struct PersistenceError: Equatable, CustomStringConvertible {
         let title: String
@@ -85,7 +112,20 @@ class FlightManager: ObservableObject {
         }
     }
 
+    func remove(with id: UUID) {
+        guard let index = self.flights.firstIndex(where: { $0.id == id }) else { return }
+        remove(at: index)
+    }
+
     func cancelCreation() {
         creationInProgress = false
+    }
+}
+
+extension DateComponents: Comparable {
+    public static func < (lhs: DateComponents, rhs: DateComponents) -> Bool {
+        let now = Date()
+        let calendar = Calendar.current
+        return calendar.date(byAdding: lhs, to: now)! < calendar.date(byAdding: rhs, to: now)!
     }
 }
